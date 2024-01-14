@@ -1,0 +1,344 @@
+============================================================
+New run started at 2024-01-13.17:38:53.231716
+sys.argv: "/usr/local/lib/python3.10/dist-packages/colab_kernel_launcher.py -f /root/.local/share/jupyter/runtime/kernel-66b53123-c71d-4d44-8578-01801110839c.json"
+============================================================
+The console stream is logged into /root/sg_logs/console.log
+WARNING: Logging before flag parsing goes to stderr.
+W0113 17:38:53.818947 137357763252864 __init__.py:9] Failed to import pytorch_quantization
+W0113 17:39:08.397264 137357763252864 calibrator.py:28] Failed to import pytorch_quantization
+W0113 17:39:08.407109 137357763252864 export.py:15] Failed to import pytorch_quantization
+W0113 17:39:08.854693 137357763252864 selective_quantization_utils.py:17] Failed to import pytorch_quantization
+W0113 17:39:08.898936 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: boto3 required but not found[0m
+W0113 17:39:08.904322 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: deprecated required but not found[0m
+W0113 17:39:08.910164 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: coverage required but not found[0m
+I0113 17:39:08.915131 137357763252864 env_sanity_check.py:112] sphinx==5.0.2 does not satisfy requirement sphinx~=4.0.2
+W0113 17:39:08.915672 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: sphinx-rtd-theme required but not found[0m
+W0113 17:39:08.919950 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: torchmetrics required but not found[0m
+W0113 17:39:08.924055 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: hydra-core required but not found[0m
+W0113 17:39:08.927566 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: omegaconf required but not found[0m
+W0113 17:39:08.931562 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: onnxruntime required but not found[0m
+W0113 17:39:08.933678 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: onnx required but not found[0m
+I0113 17:39:08.937979 137357763252864 env_sanity_check.py:112] pyparsing==3.1.1 does not satisfy requirement pyparsing==2.4.5
+W0113 17:39:08.938291 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: einops required but not found[0m
+I0113 17:39:08.945133 137357763252864 env_sanity_check.py:112] pycocotools==2.0.7 does not satisfy requirement pycocotools==2.0.6
+W0113 17:39:08.945817 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: treelib required but not found[0m
+I0113 17:39:08.948153 137357763252864 env_sanity_check.py:112] termcolor==2.4.0 does not satisfy requirement termcolor==1.1.0
+W0113 17:39:08.949263 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: stringcase required but not found[0m
+I0113 17:39:08.952460 137357763252864 env_sanity_check.py:112] numpy==1.23.5 does not satisfy requirement numpy<=1.23
+W0113 17:39:08.952728 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: rapidfuzz required but not found[0m
+W0113 17:39:08.955686 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: json-tricks required but not found[0m
+W0113 17:39:08.958797 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: onnx-simplifier required but not found[0m
+W0113 17:39:08.961757 137357763252864 env_sanity_check.py:95] [31mFailed to verify installed packages: data-gradients required but not found[0m
+W0113 17:39:09.548368 137357763252864 yolo_format_detection.py:145] 27 images are note associated to any label file
+W0113 17:39:09.551202 137357763252864 yolo_format_detection.py:149] 27 label files are not associated to any image.
+W0113 17:39:09.557636 137357763252864 yolo_format_detection.py:154] As a consequence, 126/153 images and 126/153 label files will be used.
+
+Indexing dataset annotations:   0%|          | 0/126 [00:00<?, ?it/s]
+Indexing dataset annotations:   1%|          | 1/126 [00:01<02:39,  1.28s/it]
+Indexing dataset annotations:   2%|▏         | 2/126 [00:02<02:30,  1.22s/it]
+Indexing dataset annotations:   2%|▏         | 3/126 [00:03<02:28,  1.21s/it]
+Indexing dataset annotations:   3%|▎         | 4/126 [00:04<01:50,  1.10it/s]
+Indexing dataset annotations:   4%|▍         | 5/126 [00:04<01:25,  1.42it/s]
+Indexing dataset annotations:   5%|▍         | 6/126 [00:04<01:10,  1.71it/s]
+Indexing dataset annotations:   6%|▌         | 7/126 [00:05<00:58,  2.05it/s]
+Indexing dataset annotations:   6%|▋         | 8/126 [00:05<00:50,  2.33it/s]
+Indexing dataset annotations:   7%|▋         | 9/126 [00:05<00:47,  2.45it/s]
+Indexing dataset annotations:   8%|▊         | 10/126 [00:06<00:42,  2.72it/s]
+Indexing dataset annotations:   9%|▊         | 11/126 [00:06<00:43,  2.65it/s]
+Indexing dataset annotations:  10%|▉         | 12/126 [00:06<00:45,  2.52it/s]
+Indexing dataset annotations:  10%|█         | 13/126 [00:07<00:41,  2.76it/s]
+Indexing dataset annotations:  11%|█         | 14/126 [00:07<00:39,  2.85it/s]
+Indexing dataset annotations:  12%|█▏        | 15/126 [00:07<00:37,  2.94it/s]
+Indexing dataset annotations:  13%|█▎        | 16/126 [00:08<00:37,  2.91it/s]
+Indexing dataset annotations:  13%|█▎        | 17/126 [00:08<00:36,  2.99it/s]
+Indexing dataset annotations:  14%|█▍        | 18/126 [00:08<00:35,  3.07it/s]
+Indexing dataset annotations:  15%|█▌        | 19/126 [00:09<00:36,  2.96it/s]
+Indexing dataset annotations:  16%|█▌        | 20/126 [00:09<00:33,  3.12it/s]
+Indexing dataset annotations:  17%|█▋        | 21/126 [00:09<00:33,  3.10it/s]
+Indexing dataset annotations:  17%|█▋        | 22/126 [00:10<00:34,  3.01it/s]
+Indexing dataset annotations:  18%|█▊        | 23/126 [00:10<00:34,  2.97it/s]
+Indexing dataset annotations:  19%|█▉        | 24/126 [00:10<00:36,  2.77it/s]
+Indexing dataset annotations:  20%|█▉        | 25/126 [00:11<00:39,  2.58it/s]
+Indexing dataset annotations:  21%|██        | 26/126 [00:11<00:39,  2.53it/s]
+Indexing dataset annotations:  21%|██▏       | 27/126 [00:12<00:38,  2.60it/s]
+Indexing dataset annotations:  22%|██▏       | 28/126 [00:12<00:36,  2.67it/s]
+Indexing dataset annotations:  23%|██▎       | 29/126 [00:12<00:36,  2.65it/s]
+Indexing dataset annotations:  24%|██▍       | 30/126 [00:13<00:35,  2.74it/s]
+Indexing dataset annotations:  25%|██▍       | 31/126 [00:13<00:36,  2.64it/s]
+Indexing dataset annotations:  25%|██▌       | 32/126 [00:13<00:34,  2.73it/s]
+Indexing dataset annotations:  26%|██▌       | 33/126 [00:14<00:34,  2.73it/s]
+Indexing dataset annotations:  27%|██▋       | 34/126 [00:14<00:32,  2.86it/s]
+Indexing dataset annotations:  28%|██▊       | 35/126 [00:14<00:29,  3.05it/s]
+Indexing dataset annotations:  29%|██▊       | 36/126 [00:15<00:31,  2.83it/s]
+Indexing dataset annotations:  29%|██▉       | 37/126 [00:15<00:32,  2.75it/s]
+Indexing dataset annotations:  30%|███       | 38/126 [00:15<00:31,  2.79it/s]
+Indexing dataset annotations:  31%|███       | 39/126 [00:16<00:30,  2.87it/s]
+Indexing dataset annotations:  32%|███▏      | 40/126 [00:16<00:28,  3.04it/s]
+Indexing dataset annotations:  33%|███▎      | 41/126 [00:16<00:26,  3.19it/s]
+Indexing dataset annotations:  33%|███▎      | 42/126 [00:17<00:27,  3.04it/s]
+Indexing dataset annotations:  34%|███▍      | 43/126 [00:17<00:26,  3.18it/s]
+Indexing dataset annotations:  35%|███▍      | 44/126 [00:17<00:28,  2.90it/s]
+Indexing dataset annotations:  36%|███▌      | 45/126 [00:18<00:29,  2.77it/s]
+Indexing dataset annotations:  37%|███▋      | 46/126 [00:18<00:28,  2.82it/s]
+Indexing dataset annotations:  37%|███▋      | 47/126 [00:19<00:28,  2.75it/s]
+Indexing dataset annotations:  38%|███▊      | 48/126 [00:19<00:27,  2.83it/s]
+Indexing dataset annotations:  39%|███▉      | 49/126 [00:23<01:58,  1.53s/it]
+Indexing dataset annotations:  40%|███▉      | 50/126 [00:24<01:29,  1.17s/it]
+Indexing dataset annotations:  40%|████      | 51/126 [00:24<01:07,  1.10it/s]
+Indexing dataset annotations:  41%|████▏     | 52/126 [00:24<00:55,  1.34it/s]
+Indexing dataset annotations:  42%|████▏     | 53/126 [00:24<00:43,  1.68it/s]
+Indexing dataset annotations:  43%|████▎     | 54/126 [00:25<00:37,  1.93it/s]
+Indexing dataset annotations:  44%|████▎     | 55/126 [00:25<00:32,  2.19it/s]
+Indexing dataset annotations:  44%|████▍     | 56/126 [00:25<00:30,  2.32it/s]
+Indexing dataset annotations:  45%|████▌     | 57/126 [00:26<00:27,  2.53it/s]
+Indexing dataset annotations:  46%|████▌     | 58/126 [00:26<00:29,  2.34it/s]
+Indexing dataset annotations:  47%|████▋     | 59/126 [00:27<00:27,  2.47it/s]
+Indexing dataset annotations:  48%|████▊     | 60/126 [00:27<00:26,  2.50it/s]
+Indexing dataset annotations:  48%|████▊     | 61/126 [00:27<00:26,  2.46it/s]
+Indexing dataset annotations:  49%|████▉     | 62/126 [00:28<00:25,  2.50it/s]
+Indexing dataset annotations:  50%|█████     | 63/126 [00:28<00:23,  2.69it/s]
+Indexing dataset annotations:  51%|█████     | 64/126 [00:28<00:21,  2.95it/s]
+Indexing dataset annotations:  52%|█████▏    | 65/126 [00:29<00:21,  2.87it/s]
+Indexing dataset annotations:  52%|█████▏    | 66/126 [00:29<00:21,  2.84it/s]
+Indexing dataset annotations:  53%|█████▎    | 67/126 [00:30<00:22,  2.59it/s]
+Indexing dataset annotations:  54%|█████▍    | 68/126 [00:30<00:25,  2.25it/s]
+Indexing dataset annotations:  55%|█████▍    | 69/126 [00:31<00:23,  2.39it/s]
+Indexing dataset annotations:  56%|█████▌    | 70/126 [00:31<00:21,  2.62it/s]
+Indexing dataset annotations:  56%|█████▋    | 71/126 [00:31<00:21,  2.60it/s]
+Indexing dataset annotations:  57%|█████▋    | 72/126 [00:32<00:20,  2.64it/s]
+Indexing dataset annotations:  58%|█████▊    | 73/126 [00:32<00:19,  2.70it/s]
+Indexing dataset annotations:  59%|█████▊    | 74/126 [00:32<00:18,  2.81it/s]
+Indexing dataset annotations:  60%|█████▉    | 75/126 [00:33<00:16,  3.03it/s]
+Indexing dataset annotations:  60%|██████    | 76/126 [00:33<00:17,  2.94it/s]
+Indexing dataset annotations:  61%|██████    | 77/126 [00:33<00:18,  2.69it/s]
+Indexing dataset annotations:  62%|██████▏   | 78/126 [00:34<00:17,  2.80it/s]
+Indexing dataset annotations:  63%|██████▎   | 79/126 [00:34<00:16,  2.79it/s]
+Indexing dataset annotations:  63%|██████▎   | 80/126 [00:34<00:15,  3.00it/s]
+Indexing dataset annotations:  64%|██████▍   | 81/126 [00:35<00:14,  3.01it/s]
+Indexing dataset annotations:  65%|██████▌   | 82/126 [00:35<00:16,  2.66it/s]
+Indexing dataset annotations:  66%|██████▌   | 83/126 [00:35<00:14,  2.91it/s]
+Indexing dataset annotations:  67%|██████▋   | 84/126 [00:36<00:15,  2.63it/s]
+Indexing dataset annotations:  67%|██████▋   | 85/126 [00:36<00:14,  2.88it/s]
+Indexing dataset annotations:  68%|██████▊   | 86/126 [00:36<00:12,  3.11it/s]
+Indexing dataset annotations:  69%|██████▉   | 87/126 [00:37<00:11,  3.31it/s]
+Indexing dataset annotations:  70%|██████▉   | 88/126 [00:37<00:12,  3.02it/s]
+Indexing dataset annotations:  71%|███████   | 89/126 [00:37<00:11,  3.18it/s]
+Indexing dataset annotations:  71%|███████▏  | 90/126 [00:38<00:11,  3.11it/s]
+Indexing dataset annotations:  72%|███████▏  | 91/126 [00:38<00:11,  3.15it/s]
+Indexing dataset annotations:  73%|███████▎  | 92/126 [00:38<00:10,  3.32it/s]
+Indexing dataset annotations:  74%|███████▍  | 93/126 [00:38<00:09,  3.39it/s]
+Indexing dataset annotations:  75%|███████▍  | 94/126 [00:39<00:09,  3.38it/s]
+Indexing dataset annotations:  75%|███████▌  | 95/126 [00:39<00:09,  3.25it/s]
+Indexing dataset annotations:  76%|███████▌  | 96/126 [00:40<00:11,  2.61it/s]
+Indexing dataset annotations:  77%|███████▋  | 97/126 [00:40<00:11,  2.62it/s]
+Indexing dataset annotations:  78%|███████▊  | 98/126 [00:40<00:09,  2.98it/s]
+Indexing dataset annotations:  79%|███████▊  | 99/126 [00:41<00:09,  2.82it/s]
+Indexing dataset annotations:  79%|███████▉  | 100/126 [00:41<00:08,  3.10it/s]
+Indexing dataset annotations:  80%|████████  | 101/126 [00:41<00:08,  3.09it/s]
+Indexing dataset annotations:  81%|████████  | 102/126 [00:42<00:08,  2.93it/s]
+Indexing dataset annotations:  82%|████████▏ | 103/126 [00:42<00:09,  2.55it/s]
+Indexing dataset annotations:  83%|████████▎ | 104/126 [00:43<00:08,  2.51it/s]
+Indexing dataset annotations:  83%|████████▎ | 105/126 [00:43<00:08,  2.51it/s]
+Indexing dataset annotations:  84%|████████▍ | 106/126 [00:43<00:07,  2.58it/s]
+Indexing dataset annotations:  85%|████████▍ | 107/126 [00:44<00:07,  2.70it/s]
+Indexing dataset annotations:  86%|████████▌ | 108/126 [00:44<00:06,  2.81it/s]
+Indexing dataset annotations:  87%|████████▋ | 109/126 [00:44<00:06,  2.58it/s]
+Indexing dataset annotations:  87%|████████▋ | 110/126 [00:45<00:06,  2.43it/s]
+Indexing dataset annotations:  88%|████████▊ | 111/126 [00:45<00:06,  2.50it/s]
+Indexing dataset annotations:  89%|████████▉ | 112/126 [00:46<00:05,  2.54it/s]
+Indexing dataset annotations:  90%|████████▉ | 113/126 [00:46<00:04,  2.64it/s]
+Indexing dataset annotations:  90%|█████████ | 114/126 [00:46<00:04,  2.58it/s]
+Indexing dataset annotations:  91%|█████████▏| 115/126 [00:47<00:03,  2.77it/s]
+Indexing dataset annotations:  92%|█████████▏| 116/126 [00:47<00:03,  2.88it/s]
+Indexing dataset annotations:  93%|█████████▎| 117/126 [00:47<00:03,  2.79it/s]
+Indexing dataset annotations:  94%|█████████▎| 118/126 [00:48<00:03,  2.50it/s]
+Indexing dataset annotations:  94%|█████████▍| 119/126 [00:48<00:02,  2.68it/s]
+Indexing dataset annotations:  95%|█████████▌| 120/126 [00:48<00:01,  3.01it/s]
+Indexing dataset annotations:  96%|█████████▌| 121/126 [00:49<00:01,  2.88it/s]
+Indexing dataset annotations:  97%|█████████▋| 122/126 [00:49<00:01,  2.64it/s]
+Indexing dataset annotations:  98%|█████████▊| 123/126 [00:50<00:01,  2.97it/s]
+Indexing dataset annotations:  98%|█████████▊| 124/126 [00:50<00:00,  2.83it/s]
+Indexing dataset annotations:  99%|█████████▉| 125/126 [00:50<00:00,  2.85it/s]
+Indexing dataset annotations: 100%|██████████| 126/126 [00:51<00:00,  2.53it/s]
+Indexing dataset annotations: 100%|██████████| 126/126 [00:51<00:00,  2.46it/s]
+W0113 17:40:00.954885 137357763252864 yolo_format_detection.py:145] 27 images are note associated to any label file
+W0113 17:40:00.956206 137357763252864 yolo_format_detection.py:149] 27 label files are not associated to any image.
+W0113 17:40:00.960465 137357763252864 yolo_format_detection.py:154] As a consequence, 12/39 images and 12/39 label files will be used.
+
+Indexing dataset annotations:   0%|          | 0/12 [00:00<?, ?it/s]
+Indexing dataset annotations:   8%|▊         | 1/12 [00:00<00:06,  1.69it/s]
+Indexing dataset annotations:  17%|█▋        | 2/12 [00:01<00:05,  1.70it/s]
+Indexing dataset annotations:  25%|██▌       | 3/12 [00:01<00:05,  1.66it/s]
+Indexing dataset annotations:  33%|███▎      | 4/12 [00:02<00:05,  1.42it/s]
+Indexing dataset annotations:  42%|████▏     | 5/12 [00:03<00:04,  1.54it/s]
+Indexing dataset annotations:  50%|█████     | 6/12 [00:03<00:03,  1.50it/s]
+Indexing dataset annotations:  58%|█████▊    | 7/12 [00:04<00:03,  1.43it/s]
+Indexing dataset annotations:  67%|██████▋   | 8/12 [00:05<00:02,  1.45it/s]
+Indexing dataset annotations:  75%|███████▌  | 9/12 [00:06<00:02,  1.47it/s]
+Indexing dataset annotations:  83%|████████▎ | 10/12 [00:06<00:01,  1.41it/s]
+Indexing dataset annotations:  92%|█████████▏| 11/12 [00:07<00:00,  1.37it/s]
+Indexing dataset annotations: 100%|██████████| 12/12 [00:08<00:00,  1.30it/s]
+Indexing dataset annotations: 100%|██████████| 12/12 [00:08<00:00,  1.42it/s]
+
+Indexing dataset annotations:   0%|          | 0/5 [00:00<?, ?it/s]
+Indexing dataset annotations:  20%|██        | 1/5 [00:00<00:02,  1.62it/s]
+Indexing dataset annotations:  40%|████      | 2/5 [00:01<00:02,  1.47it/s]
+Indexing dataset annotations:  60%|██████    | 3/5 [00:02<00:01,  1.39it/s]
+Indexing dataset annotations:  80%|████████  | 4/5 [00:02<00:00,  1.33it/s]
+Indexing dataset annotations: 100%|██████████| 5/5 [00:03<00:00,  1.40it/s]
+Indexing dataset annotations: 100%|██████████| 5/5 [00:03<00:00,  1.41it/s]
+W0113 17:41:59.217540 137357763252864 yolo_format_detection.py:145] 27 images are note associated to any label file
+W0113 17:41:59.220266 137357763252864 yolo_format_detection.py:149] 27 label files are not associated to any image.
+W0113 17:41:59.222858 137357763252864 yolo_format_detection.py:154] As a consequence, 126/153 images and 126/153 label files will be used.
+
+Indexing dataset annotations:   0%|          | 0/126 [00:00<?, ?it/s]
+Indexing dataset annotations:   2%|▏         | 3/126 [00:00<00:12,  9.57it/s]
+Indexing dataset annotations:  17%|█▋        | 22/126 [00:00<00:01, 65.41it/s]
+Indexing dataset annotations:  30%|███       | 38/126 [00:00<00:00, 92.91it/s]
+Indexing dataset annotations:  45%|████▌     | 57/126 [00:00<00:00, 121.75it/s]
+Indexing dataset annotations:  59%|█████▊    | 74/126 [00:00<00:00, 132.17it/s]
+Indexing dataset annotations:  74%|███████▍  | 93/126 [00:00<00:00, 147.13it/s]
+Indexing dataset annotations:  87%|████████▋ | 110/126 [00:00<00:00, 150.89it/s]
+Indexing dataset annotations: 100%|██████████| 126/126 [00:01<00:00, 121.78it/s]
+W0113 17:42:00.498682 137357763252864 yolo_format_detection.py:145] 27 images are note associated to any label file
+W0113 17:42:00.503760 137357763252864 yolo_format_detection.py:149] 27 label files are not associated to any image.
+W0113 17:42:00.507989 137357763252864 yolo_format_detection.py:154] As a consequence, 12/39 images and 12/39 label files will be used.
+
+Indexing dataset annotations:   0%|          | 0/12 [00:00<?, ?it/s]
+Indexing dataset annotations: 100%|██████████| 12/12 [00:00<00:00, 152.07it/s]
+
+Indexing dataset annotations:   0%|          | 0/5 [00:00<?, ?it/s]
+Indexing dataset annotations: 100%|██████████| 5/5 [00:00<00:00, 190.74it/s]
+Downloading: "https://sghub.deci.ai/models/yolo_nas_l_coco.pth" to /root/.cache/torch/hub/checkpoints/yolo_nas_l_coco.pth
+
+  0%|          | 0.00/256M [00:00<?, ?B/s]
+  0%|          | 56.0k/256M [00:00<09:14, 485kB/s]
+  0%|          | 280k/256M [00:00<03:02, 1.47MB/s]
+  0%|          | 1.16M/256M [00:00<00:57, 4.68MB/s]
+  2%|▏         | 4.73M/256M [00:00<00:16, 16.4MB/s]
+  5%|▍         | 12.4M/256M [00:00<00:07, 35.9MB/s]
+  8%|▊         | 20.1M/256M [00:00<00:05, 47.4MB/s]
+ 10%|█         | 26.9M/256M [00:00<00:04, 52.4MB/s]
+ 13%|█▎        | 34.1M/256M [00:00<00:03, 58.9MB/s]
+ 15%|█▌        | 39.7M/256M [00:01<00:04, 53.5MB/s]
+ 18%|█▊        | 44.9M/256M [00:01<00:05, 43.5MB/s]
+ 19%|█▉        | 49.3M/256M [00:01<00:06, 35.0MB/s]
+ 21%|██        | 54.3M/256M [00:01<00:06, 31.4MB/s]
+ 23%|██▎       | 57.6M/256M [00:01<00:07, 29.2MB/s]
+ 24%|██▍       | 62.7M/256M [00:01<00:06, 33.3MB/s]
+ 26%|██▌       | 66.1M/256M [00:02<00:06, 32.6MB/s]
+ 28%|██▊       | 71.5M/256M [00:02<00:05, 37.3MB/s]
+ 30%|██▉       | 75.8M/256M [00:02<00:05, 37.2MB/s]
+ 31%|███▏      | 80.6M/256M [00:02<00:04, 40.2MB/s]
+ 34%|███▍      | 86.5M/256M [00:02<00:03, 44.7MB/s]
+ 36%|███▌      | 91.7M/256M [00:02<00:03, 45.5MB/s]
+ 38%|███▊      | 96.1M/256M [00:02<00:05, 29.3MB/s]
+ 40%|███▉      | 102M/256M [00:02<00:04, 34.8MB/s] 
+ 42%|████▏     | 106M/256M [00:03<00:04, 35.3MB/s]
+ 44%|████▎     | 112M/256M [00:03<00:03, 39.5MB/s]
+ 45%|████▌     | 116M/256M [00:03<00:04, 36.6MB/s]
+ 47%|████▋     | 120M/256M [00:03<00:04, 35.2MB/s]
+ 50%|████▉     | 128M/256M [00:03<00:03, 43.6MB/s]
+ 52%|█████▏    | 132M/256M [00:03<00:03, 37.3MB/s]
+ 53%|█████▎    | 136M/256M [00:03<00:03, 36.0MB/s]
+ 54%|█████▍    | 139M/256M [00:04<00:03, 31.8MB/s]
+ 56%|█████▌    | 144M/256M [00:04<00:03, 30.3MB/s]
+ 59%|█████▊    | 150M/256M [00:04<00:02, 37.4MB/s]
+ 61%|██████▏   | 157M/256M [00:04<00:02, 44.4MB/s]
+ 63%|██████▎   | 162M/256M [00:04<00:02, 43.7MB/s]
+ 65%|██████▌   | 167M/256M [00:04<00:02, 45.6MB/s]
+ 67%|██████▋   | 171M/256M [00:04<00:01, 45.0MB/s]
+ 69%|██████▊   | 176M/256M [00:04<00:01, 45.1MB/s]
+ 70%|███████   | 180M/256M [00:05<00:02, 30.8MB/s]
+ 72%|███████▏  | 184M/256M [00:05<00:02, 32.0MB/s]
+ 74%|███████▍  | 190M/256M [00:05<00:02, 32.9MB/s]
+ 76%|███████▌  | 194M/256M [00:05<00:02, 32.2MB/s]
+ 78%|███████▊  | 200M/256M [00:05<00:01, 38.1MB/s]
+ 79%|███████▉  | 204M/256M [00:05<00:01, 37.0MB/s]
+ 81%|████████  | 207M/256M [00:05<00:01, 37.2MB/s]
+ 83%|████████▎ | 213M/256M [00:06<00:01, 42.1MB/s]
+ 85%|████████▍ | 217M/256M [00:06<00:00, 41.6MB/s]
+ 87%|████████▋ | 223M/256M [00:06<00:00, 44.5MB/s]
+ 89%|████████▊ | 227M/256M [00:06<00:00, 38.8MB/s]
+ 90%|█████████ | 231M/256M [00:06<00:00, 39.0MB/s]
+ 92%|█████████▏| 235M/256M [00:06<00:00, 35.6MB/s]
+ 94%|█████████▎| 240M/256M [00:06<00:00, 39.2MB/s]
+ 95%|█████████▌| 244M/256M [00:06<00:00, 34.6MB/s]
+ 97%|█████████▋| 248M/256M [00:07<00:00, 36.4MB/s]
+ 98%|█████████▊| 252M/256M [00:07<00:00, 36.7MB/s]
+100%|█████████▉| 256M/256M [00:07<00:00, 36.0MB/s]
+100%|██████████| 256M/256M [00:07<00:00, 36.9MB/s]
+Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount("/content/drive", force_remount=True).
+Checkpoint directory created at: /content/drive/MyDrive/Dataset/checkpoint_backup
+The console stream is now moved to /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/console_Jan13_17_45_59.txt
+[2024-01-13 17:45:59] INFO - sg_trainer.py - Using EMA with params {'decay': 0.9, 'decay_type': 'threshold'}
+/usr/local/lib/python3.10/dist-packages/super_gradients/common/registry/registry.py:72: DeprecationWarning: Object name `linear_epoch_step` is now deprecated. Please replace it with `LinearEpochLRWarmup`.
+  warnings.warn(f"Object name `{name}` is now deprecated. Please replace it with `{deprecated_names[name]}`.", DeprecationWarning)
+[2024-01-13 17:46:01] INFO - sg_trainer_utils.py - TRAINING PARAMETERS:
+    - Mode:                         Single GPU
+    - Number of GPUs:               1          (1 available on the machine)
+    - Full dataset size:            126        (len(train_set))
+    - Batch size per GPU:           8          (batch_size)
+    - Batch Accumulate:             1          (batch_accumulate)
+    - Total batch size:             8          (num_gpus * batch_size)
+    - Effective Batch size:         8          (num_gpus * batch_size * batch_accumulate)
+    - Iterations per epoch:         15         (len(train_loader))
+    - Gradient updates per epoch:   15         (len(train_loader) / batch_accumulate)
+    - Model: YoloNAS_L  (66.91M parameters, 66.91M optimized)
+    - Learning Rates and Weight Decays:
+      - default: (66.91M parameters). LR: 0.001 (66.91M parameters) WD: 0.0001, (66.91M parameters)
+
+[2024-01-13 17:46:32] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 17:46:32] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.012877045199275017
+[2024-01-13 17:47:30] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 17:47:30] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.013176352716982365
+[2024-01-13 17:53:12] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 17:53:12] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.015708548948168755
+[2024-01-13 17:54:47] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 17:54:47] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.09389058500528336
+[2024-01-13 17:56:12] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 17:56:12] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.13770557940006256
+[2024-01-13 18:00:05] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:00:05] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.1529165655374527
+[2024-01-13 18:03:51] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:03:51] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.17036452889442444
+[2024-01-13 18:06:03] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:06:03] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.1762477308511734
+[2024-01-13 18:08:02] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:08:02] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.177986741065979
+[2024-01-13 18:11:46] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:11:47] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.198276549577713
+[2024-01-13 18:15:39] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:15:39] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.21631397306919098
+[2024-01-13 18:28:12] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:28:12] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.23279210925102234
+[2024-01-13 18:30:12] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:30:12] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.2593085765838623
+[2024-01-13 18:37:56] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:37:56] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.27435916662216187
+[2024-01-13 18:53:03] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:53:03] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.2841799259185791
+[2024-01-13 19:10:15] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:10:15] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.2859654724597931
+[2024-01-13 19:12:28] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:12:28] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.28936171531677246
+[2024-01-13 19:16:33] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:16:33] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.300049364566803
+[2024-01-13 19:18:47] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:18:47] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.3055160343647003
+[2024-01-13 19:35:18] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:35:18] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.32585006952285767
+[2024-01-13 19:39:47] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:39:47] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.3261048197746277
+[2024-01-13 19:46:28] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:46:28] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.3395504653453827
+[2024-01-13 20:06:52] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 20:06:52] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.36265361309051514
+[2024-01-13 20:22:34] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 20:22:34] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.3790147304534912
+[2024-01-13 20:40:21] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 20:40:21] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.3984856605529785
+[2024-01-13 20:53:17] INFO - base_sg_logger.py - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 20:53:17] INFO - sg_trainer.py - Best checkpoint overriden: validation mAP@0.50: 0.40628889203071594
+[2024-01-13 20:57:03] INFO - sg_trainer.py - RUNNING ADDITIONAL TEST ON THE AVERAGED MODEL...
+  0%|          | 0/2 [00:00<?, ?it/s]Validating epoch 100:   0%|          | 0/2 [00:00<?, ?it/s]Validating epoch 100:  50%|█████     | 1/2 [00:01<00:01,  1.86s/it]Validating epoch 100: 100%|██████████| 2/2 [00:02<00:00,  1.09it/s]Validating epoch 100: 100%|██████████| 2/2 [00:02<00:00,  1.24s/it]

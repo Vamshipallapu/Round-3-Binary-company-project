@@ -1,0 +1,111 @@
+[2024-01-13 17:38:53] INFO - super_gradients.common.crash_handler.crash_tips_setup - Crash tips is enabled. You can set your environment variable to CRASH_HANDLER=FALSE to disable it
+[2024-01-13 17:38:53] WARNING - super_gradients.training.utils.quantization - Failed to import pytorch_quantization
+[2024-01-13 17:39:08] WARNING - super_gradients.training.utils.quantization.calibrator - Failed to import pytorch_quantization
+[2024-01-13 17:39:08] WARNING - super_gradients.training.utils.quantization.export - Failed to import pytorch_quantization
+[2024-01-13 17:39:08] WARNING - super_gradients.training.utils.quantization.selective_quantization_utils - Failed to import pytorch_quantization
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: boto3 required but not found[0m
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: deprecated required but not found[0m
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: coverage required but not found[0m
+[2024-01-13 17:39:08] DEBUG - super_gradients.sanity_check.env_sanity_check - sphinx==5.0.2 does not satisfy requirement sphinx~=4.0.2
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: sphinx-rtd-theme required but not found[0m
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: torchmetrics required but not found[0m
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: hydra-core required but not found[0m
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: omegaconf required but not found[0m
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: onnxruntime required but not found[0m
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: onnx required but not found[0m
+[2024-01-13 17:39:08] DEBUG - super_gradients.sanity_check.env_sanity_check - pyparsing==3.1.1 does not satisfy requirement pyparsing==2.4.5
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: einops required but not found[0m
+[2024-01-13 17:39:08] DEBUG - super_gradients.sanity_check.env_sanity_check - pycocotools==2.0.7 does not satisfy requirement pycocotools==2.0.6
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: treelib required but not found[0m
+[2024-01-13 17:39:08] DEBUG - super_gradients.sanity_check.env_sanity_check - termcolor==2.4.0 does not satisfy requirement termcolor==1.1.0
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: stringcase required but not found[0m
+[2024-01-13 17:39:08] DEBUG - super_gradients.sanity_check.env_sanity_check - numpy==1.23.5 does not satisfy requirement numpy<=1.23
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: rapidfuzz required but not found[0m
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: json-tricks required but not found[0m
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: onnx-simplifier required but not found[0m
+[2024-01-13 17:39:08] WARNING - super_gradients.sanity_check.env_sanity_check - [31mFailed to verify installed packages: data-gradients required but not found[0m
+[2024-01-13 17:39:09] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - 27 images are note associated to any label file
+[2024-01-13 17:39:09] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - 27 label files are not associated to any image.
+[2024-01-13 17:39:09] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - As a consequence, 126/153 images and 126/153 label files will be used.
+[2024-01-13 17:40:00] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - 27 images are note associated to any label file
+[2024-01-13 17:40:00] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - 27 label files are not associated to any image.
+[2024-01-13 17:40:00] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - As a consequence, 12/39 images and 12/39 label files will be used.
+[2024-01-13 17:41:59] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - 27 images are note associated to any label file
+[2024-01-13 17:41:59] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - 27 label files are not associated to any image.
+[2024-01-13 17:41:59] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - As a consequence, 126/153 images and 126/153 label files will be used.
+[2024-01-13 17:42:00] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - 27 images are note associated to any label file
+[2024-01-13 17:42:00] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - 27 label files are not associated to any image.
+[2024-01-13 17:42:00] WARNING - super_gradients.training.datasets.detection_datasets.yolo_format_detection - As a consequence, 12/39 images and 12/39 label files will be used.
+[2024-01-13 17:45:59] INFO - super_gradients.training.sg_trainer.sg_trainer - Using EMA with params {'decay': 0.9, 'decay_type': 'threshold'}
+[2024-01-13 17:46:01] INFO - super_gradients.training.utils.sg_trainer_utils - TRAINING PARAMETERS:
+    - Mode:                         Single GPU
+    - Number of GPUs:               1          (1 available on the machine)
+    - Full dataset size:            126        (len(train_set))
+    - Batch size per GPU:           8          (batch_size)
+    - Batch Accumulate:             1          (batch_accumulate)
+    - Total batch size:             8          (num_gpus * batch_size)
+    - Effective Batch size:         8          (num_gpus * batch_size * batch_accumulate)
+    - Iterations per epoch:         15         (len(train_loader))
+    - Gradient updates per epoch:   15         (len(train_loader) / batch_accumulate)
+    - Model: YoloNAS_L  (66.91M parameters, 66.91M optimized)
+    - Learning Rates and Weight Decays:
+      - default: (66.91M parameters). LR: 0.001 (66.91M parameters) WD: 0.0001, (66.91M parameters)
+
+[2024-01-13 17:46:32] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 17:46:32] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.012877045199275017
+[2024-01-13 17:47:30] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 17:47:30] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.013176352716982365
+[2024-01-13 17:53:12] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 17:53:12] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.015708548948168755
+[2024-01-13 17:54:47] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 17:54:47] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.09389058500528336
+[2024-01-13 17:56:12] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 17:56:12] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.13770557940006256
+[2024-01-13 18:00:05] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:00:05] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.1529165655374527
+[2024-01-13 18:03:51] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:03:51] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.17036452889442444
+[2024-01-13 18:06:03] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:06:03] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.1762477308511734
+[2024-01-13 18:08:02] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:08:02] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.177986741065979
+[2024-01-13 18:11:46] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:11:47] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.198276549577713
+[2024-01-13 18:15:39] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:15:39] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.21631397306919098
+[2024-01-13 18:28:12] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:28:12] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.23279210925102234
+[2024-01-13 18:30:12] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:30:12] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.2593085765838623
+[2024-01-13 18:37:56] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:37:56] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.27435916662216187
+[2024-01-13 18:53:03] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 18:53:03] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.2841799259185791
+[2024-01-13 19:10:15] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:10:15] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.2859654724597931
+[2024-01-13 19:12:28] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:12:28] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.28936171531677246
+[2024-01-13 19:16:33] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:16:33] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.300049364566803
+[2024-01-13 19:18:47] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:18:47] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.3055160343647003
+[2024-01-13 19:35:18] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:35:18] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.32585006952285767
+[2024-01-13 19:39:47] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:39:47] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.3261048197746277
+[2024-01-13 19:46:28] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 19:46:28] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.3395504653453827
+[2024-01-13 20:06:52] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 20:06:52] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.36265361309051514
+[2024-01-13 20:22:34] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 20:22:34] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.3790147304534912
+[2024-01-13 20:40:21] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 20:40:21] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.3984856605529785
+[2024-01-13 20:53:17] INFO - super_gradients.common.sg_loggers.base_sg_logger - Checkpoint saved in /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth
+[2024-01-13 20:53:17] INFO - super_gradients.training.sg_trainer.sg_trainer - Best checkpoint overriden: validation mAP@0.50: 0.40628889203071594
+[2024-01-13 20:57:03] INFO - super_gradients.training.sg_trainer.sg_trainer - RUNNING ADDITIONAL TEST ON THE AVERAGED MODEL...
+[2024-01-13 20:57:09] INFO - super_gradients.common.sg_loggers.base_sg_logger - [CLEANUP] - Successfully stopped system monitoring process
+[2024-01-13 21:05:38] DEBUG - hydra.core.utils - Setting JobRuntime:name=app
+[2024-01-13 21:05:46] INFO - super_gradients.training.utils.checkpoint_utils - Successfully loaded model weights from /content/drive/MyDrive/Dataset/checkpoint_backup/my_first_yolonas_run/RUN_20240113_174559_161641/ckpt_best.pth EMA checkpoint.
+[2024-01-13 21:05:46] DEBUG - super_gradients.training.utils.checkpoint_utils - Trying to load preprocessing params from checkpoint. Preprocessing params in checkpoint: True. Model YoloNAS_L inherit HasPredict: True
+[2024-01-13 21:05:46] DEBUG - super_gradients.training.utils.checkpoint_utils - Successfully loaded preprocessing params from checkpoint {'class_names': ['dents', 'scratches'], 'image_processor': {'ComposeProcessing': {'processings': [<super_gradients.training.processing.processing.ReverseImageChannels object at 0x7ceb9bd55360>, <super_gradients.training.processing.processing.DetectionLongestMaxSizeRescale object at 0x7ceb9bd578b0>, <super_gradients.training.processing.processing.DetectionLongestMaxSizeRescale object at 0x7ceb9bd55d50>, <super_gradients.training.processing.processing.DetectionBottomRightPadding object at 0x7ceb9bd55810>, <super_gradients.training.processing.processing.ImagePermute object at 0x7ceb9bd56380>]}}, 'iou': 0.65, 'conf': 0.5}

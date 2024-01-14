@@ -1,0 +1,1460 @@
+--------- config parameters ----------
+{
+    "checkpoint_params": {
+        "load_checkpoint": false,
+        "schema": null
+    },
+    "training_hyperparams": {
+        "lr_warmup_epochs": 3,
+        "lr_warmup_steps": 0,
+        "lr_cooldown_epochs": 0,
+        "warmup_initial_lr": 1e-06,
+        "cosine_final_lr_ratio": 0.1,
+        "optimizer": "Adam (\nParameter Group 0\n    amsgrad: False\n    betas: (0.9, 0.999)\n    capturable: False\n    differentiable: False\n    eps: 1e-08\n    foreach: None\n    fused: None\n    lr: 0.001\n    maximize: False\n    weight_decay: 0.0001\n)",
+        "optimizer_params": {
+            "weight_decay": 0.0001
+        },
+        "criterion_params": {},
+        "ema": true,
+        "batch_accumulate": 1,
+        "ema_params": {
+            "decay": 0.9,
+            "decay_type": "threshold"
+        },
+        "zero_weight_decay_on_bias_and_bn": true,
+        "load_opt_params": true,
+        "run_validation_freq": 1,
+        "run_test_freq": 1,
+        "save_model": true,
+        "metric_to_watch": "mAP@0.50",
+        "launch_tensorboard": false,
+        "tb_files_user_prompt": false,
+        "silent_mode": true,
+        "mixed_precision": true,
+        "tensorboard_port": null,
+        "save_ckpt_epoch_list": [],
+        "average_best_models": true,
+        "dataset_statistics": false,
+        "save_tensorboard_to_s3": false,
+        "lr_schedule_function": null,
+        "train_metrics_list": [],
+        "valid_metrics_list": [
+            "DetectionMetrics_050(\n  (post_prediction_callback): PPYoloEPostPredictionCallback()\n)"
+        ],
+        "greater_metric_to_watch_is_better": true,
+        "precise_bn": false,
+        "precise_bn_batch_size": null,
+        "seed": 42,
+        "lr_mode": "cosine",
+        "phase_callbacks": null,
+        "log_installed_packages": true,
+        "sg_logger": "base_sg_logger",
+        "sg_logger_params": {
+            "tb_files_user_prompt": false,
+            "project_name": "",
+            "launch_tensorboard": false,
+            "tensorboard_port": null,
+            "save_checkpoints_remote": false,
+            "save_tensorboard_remote": false,
+            "save_logs_remote": false
+        },
+        "warmup_mode": "linear_epoch_step",
+        "step_lr_update_freq": null,
+        "lr_updates": [],
+        "initial_lr": null,
+        "clip_grad_norm": null,
+        "pre_prediction_callback": null,
+        "ckpt_best_name": "ckpt_best.pth",
+        "enable_qat": false,
+        "resume": false,
+        "resume_path": null,
+        "ckpt_name": "ckpt_latest.pth",
+        "resume_strict_load": false,
+        "sync_bn": false,
+        "kill_ddp_pgroup_on_end": true,
+        "max_train_batches": null,
+        "max_valid_batches": null,
+        "resume_from_remote_sg_logger": false,
+        "torch_compile": false,
+        "torch_compile_loss": false,
+        "torch_compile_options": {
+            "mode": "reduce-overhead",
+            "fullgraph": false,
+            "dynamic": false,
+            "backend": "inductor",
+            "options": null,
+            "disable": false
+        },
+        "schema": {
+            "type": "object",
+            "properties": {
+                "max_epochs": {
+                    "type": "number",
+                    "minimum": 1
+                },
+                "lr_decay_factor": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "lr_warmup_epochs": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10
+                },
+                "initial_lr": {
+                    "anyOf": [
+                        {
+                            "type": [
+                                "number",
+                                "string",
+                                "boolean",
+                                "null"
+                            ]
+                        },
+                        {
+                            "type": "object",
+                            "patternProperties": {
+                                "^[a-zA-Z0-9_.]+$": {
+                                    "type": "number"
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    ]
+                }
+            },
+            "if": {
+                "properties": {
+                    "lr_mode": {
+                        "const": "StepLRScheduler"
+                    }
+                }
+            },
+            "then": {
+                "required": [
+                    "lr_updates",
+                    "lr_decay_factor"
+                ]
+            },
+            "required": [
+                "max_epochs",
+                "lr_mode",
+                "initial_lr",
+                "loss"
+            ]
+        },
+        "checkpoint_path": "/content/drive/MyDrive/Dataset/checkpoint_backup",
+        "model": "YoloNAS_L(\n  (backbone): NStageBackbone(\n    (stem): YoloNASStem(\n      (conv): QARepVGGBlock(\n        (nonlinearity): ReLU(inplace=True)\n        (se): Identity()\n        (branch_3x3): Sequential(\n          (conv): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)\n          (bn): BatchNorm2d(48, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        )\n        (branch_1x1): Conv2d(3, 48, kernel_size=(1, 1), stride=(2, 2))\n        (post_bn): BatchNorm2d(48, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (rbr_reparam): Conv2d(3, 48, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))\n      )\n    )\n    (stage1): YoloNASStage(\n      (downsample): QARepVGGBlock(\n        (nonlinearity): ReLU(inplace=True)\n        (se): Identity()\n        (branch_3x3): Sequential(\n          (conv): Conv2d(48, 96, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)\n          (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        )\n        (branch_1x1): Conv2d(48, 96, kernel_size=(1, 1), stride=(2, 2))\n        (post_bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (rbr_reparam): Conv2d(48, 96, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))\n      )\n      (blocks): YoloNASCSPLayer(\n        (conv1): Conv(\n          (conv): Conv2d(96, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv2): Conv(\n          (conv): Conv2d(96, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv3): Conv(\n          (conv): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (bottlenecks): SequentialWithIntermediates(\n          (0): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(96, 96, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(96, 96, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(96, 96, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(96, 96, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(96, 96, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(96, 96, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (1): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(96, 96, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(96, 96, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(96, 96, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(96, 96, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(96, 96, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(96, 96, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n        )\n        (dropout): Identity()\n      )\n    )\n    (stage2): YoloNASStage(\n      (downsample): QARepVGGBlock(\n        (nonlinearity): ReLU(inplace=True)\n        (se): Identity()\n        (branch_3x3): Sequential(\n          (conv): Conv2d(96, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)\n          (bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        )\n        (branch_1x1): Conv2d(96, 192, kernel_size=(1, 1), stride=(2, 2))\n        (post_bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (rbr_reparam): Conv2d(96, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))\n      )\n      (blocks): YoloNASCSPLayer(\n        (conv1): Conv(\n          (conv): Conv2d(192, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv2): Conv(\n          (conv): Conv2d(192, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv3): Conv(\n          (conv): Conv2d(640, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (bottlenecks): SequentialWithIntermediates(\n          (0): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (1): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (2): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n        )\n        (dropout): Identity()\n      )\n    )\n    (stage3): YoloNASStage(\n      (downsample): QARepVGGBlock(\n        (nonlinearity): ReLU(inplace=True)\n        (se): Identity()\n        (branch_3x3): Sequential(\n          (conv): Conv2d(192, 384, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)\n          (bn): BatchNorm2d(384, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        )\n        (branch_1x1): Conv2d(192, 384, kernel_size=(1, 1), stride=(2, 2))\n        (post_bn): BatchNorm2d(384, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (rbr_reparam): Conv2d(192, 384, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))\n      )\n      (blocks): YoloNASCSPLayer(\n        (conv1): Conv(\n          (conv): Conv2d(384, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv2): Conv(\n          (conv): Conv2d(384, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv3): Conv(\n          (conv): Conv2d(1792, 384, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(384, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (bottlenecks): SequentialWithIntermediates(\n          (0): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (1): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (2): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (3): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (4): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n        )\n        (dropout): Identity()\n      )\n    )\n    (stage4): YoloNASStage(\n      (downsample): QARepVGGBlock(\n        (nonlinearity): ReLU(inplace=True)\n        (se): Identity()\n        (branch_3x3): Sequential(\n          (conv): Conv2d(384, 768, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)\n          (bn): BatchNorm2d(768, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        )\n        (branch_1x1): Conv2d(384, 768, kernel_size=(1, 1), stride=(2, 2))\n        (post_bn): BatchNorm2d(768, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (rbr_reparam): Conv2d(384, 768, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))\n      )\n      (blocks): YoloNASCSPLayer(\n        (conv1): Conv(\n          (conv): Conv2d(768, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv2): Conv(\n          (conv): Conv2d(768, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv3): Conv(\n          (conv): Conv2d(2048, 768, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(768, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (bottlenecks): SequentialWithIntermediates(\n          (0): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (1): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(512, 512, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n        )\n        (dropout): Identity()\n      )\n    )\n    (context_module): SPP(\n      (cv1): Conv(\n        (conv): Conv2d(768, 384, kernel_size=(1, 1), stride=(1, 1), bias=False)\n        (bn): BatchNorm2d(384, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (cv2): Conv(\n        (conv): Conv2d(1536, 768, kernel_size=(1, 1), stride=(1, 1), bias=False)\n        (bn): BatchNorm2d(768, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (m): ModuleList(\n        (0): MaxPool2d(kernel_size=5, stride=1, padding=2, dilation=1, ceil_mode=False)\n        (1): MaxPool2d(kernel_size=9, stride=1, padding=4, dilation=1, ceil_mode=False)\n        (2): MaxPool2d(kernel_size=13, stride=1, padding=6, dilation=1, ceil_mode=False)\n      )\n    )\n  )\n  (neck): YoloNASPANNeckWithC2(\n    (neck1): YoloNASUpStage(\n      (reduce_skip1): Conv(\n        (conv): Conv2d(384, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)\n        (bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (reduce_skip2): Conv(\n        (conv): Conv2d(192, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)\n        (bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (conv): Conv(\n        (conv): Conv2d(768, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)\n        (bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (upsample): ConvTranspose2d(192, 192, kernel_size=(2, 2), stride=(2, 2))\n      (downsample): Conv(\n        (conv): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)\n        (bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (reduce_after_concat): Conv(\n        (conv): Conv2d(576, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)\n        (bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (blocks): YoloNASCSPLayer(\n        (conv1): Conv(\n          (conv): Conv2d(192, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv2): Conv(\n          (conv): Conv2d(192, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv3): Conv(\n          (conv): Conv2d(256, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (bottlenecks): SequentialWithIntermediates(\n          (0): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (1): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (2): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (3): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n        )\n        (dropout): Identity()\n      )\n    )\n    (neck2): YoloNASUpStage(\n      (reduce_skip1): Conv(\n        (conv): Conv2d(192, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n        (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (reduce_skip2): Conv(\n        (conv): Conv2d(96, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n        (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (conv): Conv(\n        (conv): Conv2d(192, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n        (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (upsample): ConvTranspose2d(96, 96, kernel_size=(2, 2), stride=(2, 2))\n      (downsample): Conv(\n        (conv): Conv2d(96, 96, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)\n        (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (reduce_after_concat): Conv(\n        (conv): Conv2d(288, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n        (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (blocks): YoloNASCSPLayer(\n        (conv1): Conv(\n          (conv): Conv2d(96, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv2): Conv(\n          (conv): Conv2d(96, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv3): Conv(\n          (conv): Conv2d(256, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (bottlenecks): SequentialWithIntermediates(\n          (0): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (1): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (2): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (3): YoloNASBottleneck(\n            (cv1): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (cv2): QARepVGGBlock(\n              (nonlinearity): ReLU(inplace=True)\n              (se): Identity()\n              (branch_3x3): Sequential(\n                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n                (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              )\n              (branch_1x1): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1))\n              (identity): Residual()\n              (post_bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (rbr_reparam): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n        )\n        (dropout): Identity()\n      )\n    )\n    (neck3): YoloNASDownStage(\n      (conv): Conv(\n        (conv): Conv2d(96, 96, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)\n        (bn): BatchNorm2d(96, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (blocks): YoloNASCSPLayer(\n        (conv1): Conv(\n          (conv): Conv2d(192, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv2): Conv(\n          (conv): Conv2d(192, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv3): Conv(\n          (conv): Conv2d(256, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (bottlenecks): SequentialWithIntermediates(\n          (0): YoloNASBottleneck(\n            (cv1): Conv(\n              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (cv2): Conv(\n              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (1): YoloNASBottleneck(\n            (cv1): Conv(\n              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (cv2): Conv(\n              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (2): YoloNASBottleneck(\n            (cv1): Conv(\n              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (cv2): Conv(\n              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (3): YoloNASBottleneck(\n            (cv1): Conv(\n              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (cv2): Conv(\n              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n        )\n        (dropout): Identity()\n      )\n    )\n    (neck4): YoloNASDownStage(\n      (conv): Conv(\n        (conv): Conv2d(192, 192, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)\n        (bn): BatchNorm2d(192, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n        (act): ReLU(inplace=True)\n      )\n      (blocks): YoloNASCSPLayer(\n        (conv1): Conv(\n          (conv): Conv2d(384, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv2): Conv(\n          (conv): Conv2d(384, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (conv3): Conv(\n          (conv): Conv2d(512, 384, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(384, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n        (bottlenecks): SequentialWithIntermediates(\n          (0): YoloNASBottleneck(\n            (cv1): Conv(\n              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (cv2): Conv(\n              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (1): YoloNASBottleneck(\n            (cv1): Conv(\n              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (cv2): Conv(\n              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (2): YoloNASBottleneck(\n            (cv1): Conv(\n              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (cv2): Conv(\n              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n          (3): YoloNASBottleneck(\n            (cv1): Conv(\n              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (cv2): Conv(\n              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n              (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n              (act): ReLU(inplace=True)\n            )\n            (shortcut): Residual()\n            (drop_path): Identity()\n          )\n        )\n        (dropout): Identity()\n      )\n    )\n  )\n  (heads): NDFLHeads(\n    (head1): YoloNASDFLHead(\n      (stem): ConvBNReLU(\n        (seq): Sequential(\n          (conv): Conv2d(96, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n      )\n      (cls_convs): Sequential(\n        (0): ConvBNReLU(\n          (seq): Sequential(\n            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n            (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n            (act): ReLU(inplace=True)\n          )\n        )\n      )\n      (reg_convs): Sequential(\n        (0): ConvBNReLU(\n          (seq): Sequential(\n            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n            (bn): BatchNorm2d(128, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n            (act): ReLU(inplace=True)\n          )\n        )\n      )\n      (cls_pred): Conv2d(128, 2, kernel_size=(1, 1), stride=(1, 1))\n      (reg_pred): Conv2d(128, 68, kernel_size=(1, 1), stride=(1, 1))\n      (cls_dropout_rate): Identity()\n      (reg_dropout_rate): Identity()\n    )\n    (head2): YoloNASDFLHead(\n      (stem): ConvBNReLU(\n        (seq): Sequential(\n          (conv): Conv2d(192, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n      )\n      (cls_convs): Sequential(\n        (0): ConvBNReLU(\n          (seq): Sequential(\n            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n            (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n            (act): ReLU(inplace=True)\n          )\n        )\n      )\n      (reg_convs): Sequential(\n        (0): ConvBNReLU(\n          (seq): Sequential(\n            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n            (bn): BatchNorm2d(256, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n            (act): ReLU(inplace=True)\n          )\n        )\n      )\n      (cls_pred): Conv2d(256, 2, kernel_size=(1, 1), stride=(1, 1))\n      (reg_pred): Conv2d(256, 68, kernel_size=(1, 1), stride=(1, 1))\n      (cls_dropout_rate): Identity()\n      (reg_dropout_rate): Identity()\n    )\n    (head3): YoloNASDFLHead(\n      (stem): ConvBNReLU(\n        (seq): Sequential(\n          (conv): Conv2d(384, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n          (act): ReLU(inplace=True)\n        )\n      )\n      (cls_convs): Sequential(\n        (0): ConvBNReLU(\n          (seq): Sequential(\n            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n            (bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n            (act): ReLU(inplace=True)\n          )\n        )\n      )\n      (reg_convs): Sequential(\n        (0): ConvBNReLU(\n          (seq): Sequential(\n            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n            (bn): BatchNorm2d(512, eps=0.001, momentum=0.03, affine=True, track_running_stats=True)\n            (act): ReLU(inplace=True)\n          )\n        )\n      )\n      (cls_pred): Conv2d(512, 2, kernel_size=(1, 1), stride=(1, 1))\n      (reg_pred): Conv2d(512, 68, kernel_size=(1, 1), stride=(1, 1))\n      (cls_dropout_rate): Identity()\n      (reg_dropout_rate): Identity()\n    )\n  )\n)",
+        "max_epochs": 100,
+        "loss": "PPYoloELoss(\n  (static_assigner): ATSSAssigner()\n  (assigner): TaskAlignedAssigner()\n)"
+    },
+    "dataset_params": {
+        "train_dataset_params": "{'data_dir': '/content/drive/MyDrive/Dataset', 'images_dir': '/content/drive/MyDrive/Dataset/train/images', 'labels_dir': '/content/drive/MyDrive/Dataset/train/labels', 'classes': ['dents', 'scratches'], 'input_dim': [640, 640], 'cache_dir': None, 'cache': False, 'cache_annotations': True, 'ignore_empty_annotations': True, 'transforms': [{'DetectionMosaic': {'input_dim': [640, 640], 'prob': 1.0}}, {'DetectionRandomAffine': {'degrees': 10.42, 'translate': 0.1, 'scales': [0.1, 2], 'shear': 2.0, 'target_size': [640, 640], 'filter_box_candidates': True, 'wh_thr': 2, 'area_thr': 0.1, 'ar_thr': 20}}, {'DetectionMixup': {'input_dim': [640, 640], 'mixup_scale': [0.5, 1.5], 'prob': 1.0, 'flip_prob': 0.5}}, {'DetectionHSV': {'prob': 1.0, 'hgain': 5, 'sgain': 30, 'vgain': 30}}, {'DetectionHorizontalFlip': {'prob': 0.5}}, {'DetectionPaddedRescale': {'input_dim': [640, 640]}}, {'DetectionTargetsFormatTransform': {'input_dim': [640, 640], 'output_format': 'LABEL_CXCYWH'}}], 'class_inclusion_list': None, 'max_num_samples': None}",
+        "train_dataloader_params": {
+            "batch_size": 8,
+            "num_workers": 2,
+            "shuffle": true,
+            "drop_last": true,
+            "pin_memory": true,
+            "collate_fn": "<super_gradients.training.utils.collate_fn.detection_collate_fn.DetectionCollateFN object at 0x7cebb6687490>"
+        },
+        "valid_dataset_params": "{'data_dir': '/content/drive/MyDrive/Dataset', 'images_dir': '/content/drive/MyDrive/Dataset/images', 'labels_dir': '/content/drive/MyDrive/Dataset/labels', 'classes': ['dents', 'scratches'], 'input_dim': [640, 640], 'cache_dir': None, 'cache': False, 'cache_annotations': True, 'ignore_empty_annotations': True, 'transforms': [{'DetectionPaddedRescale': {'input_dim': [640, 640]}}, {'DetectionTargetsFormatTransform': {'input_dim': [640, 640], 'output_format': 'LABEL_CXCYWH'}}], 'class_inclusion_list': None, 'max_num_samples': None}",
+        "valid_dataloader_params": {
+            "batch_size": 8,
+            "num_workers": 2,
+            "drop_last": false,
+            "pin_memory": true,
+            "collate_fn": "<super_gradients.training.utils.collate_fn.detection_collate_fn.DetectionCollateFN object at 0x7cebb66c8550>"
+        }
+    },
+    "additional_log_items": {
+        "initial_LR": null,
+        "num_devices": 1,
+        "multi_gpu": "None",
+        "device_type": "Tesla T4",
+        "installed_packages": {
+            "babel": "2.14.0",
+            "cython": "3.0.7",
+            "flask": "2.2.5",
+            "gdal": "3.4.3",
+            "jinja2": "3.1.2",
+            "markdown": "3.5.1",
+            "markupsafe": "2.1.3",
+            "pillow": "9.4.0",
+            "pydrive": "1.3.1",
+            "pydrive2": "1.6.3",
+            "pyopengl": "3.1.7",
+            "pysocks": "1.7.1",
+            "pyyaml": "6.0.1",
+            "pygments": "2.16.1",
+            "sqlalchemy": "2.0.24",
+            "send2trash": "1.8.2",
+            "sphinx": "5.0.2",
+            "absl-py": "1.4.0",
+            "aiohttp": "3.9.1",
+            "aiosignal": "1.3.1",
+            "alabaster": "0.7.13",
+            "albumentations": "1.3.1",
+            "altair": "4.2.2",
+            "anyio": "3.7.1",
+            "appdirs": "1.4.4",
+            "argon2-cffi": "23.1.0",
+            "argon2-cffi-bindings": "21.2.0",
+            "array-record": "0.5.0",
+            "arviz": "0.15.1",
+            "astropy": "5.3.4",
+            "astunparse": "1.6.3",
+            "async-timeout": "4.0.3",
+            "atpublic": "4.0",
+            "attrs": "23.2.0",
+            "audioread": "3.0.1",
+            "autograd": "1.6.2",
+            "backcall": "0.2.0",
+            "beautifulsoup4": "4.11.2",
+            "bidict": "0.22.1",
+            "bigframes": "0.18.0",
+            "bleach": "6.1.0",
+            "blis": "0.7.11",
+            "blosc2": "2.0.0",
+            "bokeh": "3.3.2",
+            "bqplot": "0.12.42",
+            "branca": "0.7.0",
+            "build": "1.0.3",
+            "cachecontrol": "0.13.1",
+            "cachetools": "5.3.2",
+            "catalogue": "2.0.10",
+            "certifi": "2023.11.17",
+            "cffi": "1.16.0",
+            "chardet": "5.2.0",
+            "charset-normalizer": "3.3.2",
+            "chex": "0.1.7",
+            "click": "8.1.7",
+            "click-plugins": "1.1.1",
+            "cligj": "0.7.2",
+            "cloudpickle": "2.2.1",
+            "cmake": "3.27.9",
+            "cmdstanpy": "1.2.0",
+            "colorcet": "3.0.1",
+            "colorlover": "0.3.0",
+            "colour": "0.1.5",
+            "community": "1.0.0b1",
+            "confection": "0.1.4",
+            "cons": "0.4.6",
+            "contextlib2": "21.6.0",
+            "contourpy": "1.2.0",
+            "cryptography": "41.0.7",
+            "cufflinks": "0.17.3",
+            "cupy-cuda12x": "12.2.0",
+            "cvxopt": "1.3.2",
+            "cvxpy": "1.3.2",
+            "cycler": "0.12.1",
+            "cymem": "2.0.8",
+            "dask": "2023.8.1",
+            "datascience": "0.17.6",
+            "db-dtypes": "1.2.0",
+            "debugpy": "1.6.6",
+            "decorator": "4.4.2",
+            "defusedxml": "0.7.1",
+            "diskcache": "5.6.3",
+            "distributed": "2023.8.1",
+            "dlib": "19.24.2",
+            "dm-tree": "0.1.8",
+            "docutils": "0.18.1",
+            "dopamine-rl": "4.0.6",
+            "duckdb": "0.9.2",
+            "earthengine-api": "0.1.384",
+            "easydict": "1.11",
+            "ecos": "2.0.12",
+            "editdistance": "0.6.2",
+            "eerepr": "0.0.4",
+            "en-core-web-sm": "3.6.0",
+            "entrypoints": "0.4",
+            "et-xmlfile": "1.1.0",
+            "etils": "1.6.0",
+            "etuples": "0.3.9",
+            "exceptiongroup": "1.2.0",
+            "fastai": "2.7.13",
+            "fastcore": "1.5.29",
+            "fastdownload": "0.0.7",
+            "fastjsonschema": "2.19.1",
+            "fastprogress": "1.0.3",
+            "fastrlock": "0.8.2",
+            "filelock": "3.13.1",
+            "fiona": "1.9.5",
+            "firebase-admin": "5.3.0",
+            "flatbuffers": "23.5.26",
+            "flax": "0.7.5",
+            "folium": "0.14.0",
+            "fonttools": "4.47.0",
+            "frozendict": "2.4.0",
+            "frozenlist": "1.4.1",
+            "fsspec": "2023.6.0",
+            "future": "0.18.3",
+            "gast": "0.5.4",
+            "gcsfs": "2023.6.0",
+            "gdown": "4.6.6",
+            "geemap": "0.30.0",
+            "gensim": "4.3.2",
+            "geocoder": "1.38.1",
+            "geographiclib": "2.0",
+            "geopandas": "0.13.2",
+            "geopy": "2.3.0",
+            "gin-config": "0.5.0",
+            "glob2": "0.7",
+            "google": "2.0.3",
+            "google-ai-generativelanguage": "0.4.0",
+            "google-api-core": "2.11.1",
+            "google-api-python-client": "2.84.0",
+            "google-auth": "2.17.3",
+            "google-auth-httplib2": "0.1.1",
+            "google-auth-oauthlib": "1.2.0",
+            "google-cloud-aiplatform": "1.39.0",
+            "google-cloud-bigquery": "3.12.0",
+            "google-cloud-bigquery-connection": "1.12.1",
+            "google-cloud-bigquery-storage": "2.24.0",
+            "google-cloud-core": "2.3.3",
+            "google-cloud-datastore": "2.15.2",
+            "google-cloud-firestore": "2.11.1",
+            "google-cloud-functions": "1.13.3",
+            "google-cloud-iam": "2.13.0",
+            "google-cloud-language": "2.9.1",
+            "google-cloud-resource-manager": "1.11.0",
+            "google-cloud-storage": "2.8.0",
+            "google-cloud-translate": "3.11.3",
+            "google-colab": "1.0.0",
+            "google-crc32c": "1.5.0",
+            "google-generativeai": "0.3.2",
+            "google-pasta": "0.2.0",
+            "google-resumable-media": "2.7.0",
+            "googleapis-common-protos": "1.62.0",
+            "googledrivedownloader": "0.4",
+            "graphviz": "0.20.1",
+            "greenlet": "3.0.3",
+            "grpc-google-iam-v1": "0.13.0",
+            "grpcio": "1.60.0",
+            "grpcio-status": "1.48.2",
+            "gspread": "3.4.2",
+            "gspread-dataframe": "3.3.1",
+            "gym": "0.25.2",
+            "gym-notices": "0.0.8",
+            "h5netcdf": "1.3.0",
+            "h5py": "3.9.0",
+            "holidays": "0.40",
+            "holoviews": "1.17.1",
+            "html5lib": "1.1",
+            "httpimport": "1.3.1",
+            "httplib2": "0.22.0",
+            "huggingface-hub": "0.20.2",
+            "humanize": "4.7.0",
+            "hyperopt": "0.2.7",
+            "ibis-framework": "7.1.0",
+            "idna": "3.6",
+            "imageio": "2.31.6",
+            "imageio-ffmpeg": "0.4.9",
+            "imagesize": "1.4.1",
+            "imbalanced-learn": "0.10.1",
+            "imgaug": "0.4.0",
+            "importlib-metadata": "7.0.1",
+            "importlib-resources": "6.1.1",
+            "imutils": "0.5.4",
+            "inflect": "7.0.0",
+            "iniconfig": "2.0.0",
+            "install": "1.3.5",
+            "intel-openmp": "2023.2.3",
+            "ipyevents": "2.0.2",
+            "ipyfilechooser": "0.6.0",
+            "ipykernel": "5.5.6",
+            "ipyleaflet": "0.18.1",
+            "ipython": "7.34.0",
+            "ipython-genutils": "0.2.0",
+            "ipython-sql": "0.5.0",
+            "ipytree": "0.2.2",
+            "ipywidgets": "7.7.1",
+            "itsdangerous": "2.1.2",
+            "jax": "0.4.23",
+            "jaxlib": "0.4.23+cuda12.cudnn89",
+            "jieba": "0.42.1",
+            "joblib": "1.3.2",
+            "jsonpickle": "3.0.2",
+            "jsonschema": "4.19.2",
+            "jsonschema-specifications": "2023.12.1",
+            "jupyter-client": "6.1.12",
+            "jupyter-console": "6.1.0",
+            "jupyter-core": "5.7.0",
+            "jupyter-server": "1.24.0",
+            "jupyterlab-pygments": "0.3.0",
+            "jupyterlab-widgets": "3.0.9",
+            "kaggle": "1.5.16",
+            "kagglehub": "0.1.4",
+            "keras": "2.15.0",
+            "kiwisolver": "1.4.5",
+            "langcodes": "3.3.0",
+            "lazy-loader": "0.3",
+            "libclang": "16.0.6",
+            "librosa": "0.10.1",
+            "lida": "0.0.10",
+            "lightgbm": "4.1.0",
+            "linkify-it-py": "2.0.2",
+            "llmx": "0.0.15a0",
+            "llvmlite": "0.41.1",
+            "locket": "1.0.0",
+            "logical-unification": "0.4.6",
+            "lxml": "4.9.4",
+            "malloy": "2023.1067",
+            "markdown-it-py": "3.0.0",
+            "matplotlib": "3.7.1",
+            "matplotlib-inline": "0.1.6",
+            "matplotlib-venn": "0.11.9",
+            "mdit-py-plugins": "0.4.0",
+            "mdurl": "0.1.2",
+            "minikanren": "1.0.3",
+            "missingno": "0.5.2",
+            "mistune": "0.8.4",
+            "mizani": "0.9.3",
+            "mkl": "2023.2.0",
+            "ml-dtypes": "0.2.0",
+            "mlxtend": "0.22.0",
+            "more-itertools": "10.1.0",
+            "moviepy": "1.0.3",
+            "mpmath": "1.3.0",
+            "msgpack": "1.0.7",
+            "multidict": "6.0.4",
+            "multipledispatch": "1.0.0",
+            "multitasking": "0.0.11",
+            "murmurhash": "1.0.10",
+            "music21": "9.1.0",
+            "natsort": "8.4.0",
+            "nbclassic": "1.0.0",
+            "nbclient": "0.9.0",
+            "nbconvert": "6.5.4",
+            "nbformat": "5.9.2",
+            "nest-asyncio": "1.5.8",
+            "networkx": "3.2.1",
+            "nibabel": "4.0.2",
+            "nltk": "3.8.1",
+            "notebook": "6.5.5",
+            "notebook-shim": "0.2.3",
+            "numba": "0.58.1",
+            "numexpr": "2.8.8",
+            "numpy": "1.23.5",
+            "oauth2client": "4.1.3",
+            "oauthlib": "3.2.2",
+            "opencv-contrib-python": "4.8.0.76",
+            "opencv-python": "4.8.0.76",
+            "opencv-python-headless": "4.9.0.80",
+            "openpyxl": "3.1.2",
+            "opt-einsum": "3.3.0",
+            "optax": "0.1.7",
+            "orbax-checkpoint": "0.4.4",
+            "osqp": "0.6.2.post8",
+            "packaging": "23.2",
+            "pandas": "1.5.3",
+            "pandas-datareader": "0.10.0",
+            "pandas-gbq": "0.19.2",
+            "pandas-stubs": "1.5.3.230304",
+            "pandocfilters": "1.5.0",
+            "panel": "1.3.6",
+            "param": "2.0.1",
+            "parso": "0.8.3",
+            "parsy": "2.1",
+            "partd": "1.4.1",
+            "pathlib": "1.0.1",
+            "pathy": "0.10.3",
+            "patsy": "0.5.6",
+            "peewee": "3.17.0",
+            "pexpect": "4.9.0",
+            "pickleshare": "0.7.5",
+            "pins": "0.8.4",
+            "pip": "23.1.2",
+            "pip-tools": "6.13.0",
+            "platformdirs": "4.1.0",
+            "plotly": "5.15.0",
+            "plotnine": "0.12.4",
+            "pluggy": "1.3.0",
+            "polars": "0.17.3",
+            "pooch": "1.8.0",
+            "portpicker": "1.5.2",
+            "prefetch-generator": "1.0.3",
+            "preshed": "3.0.9",
+            "prettytable": "3.9.0",
+            "proglog": "0.1.10",
+            "progressbar2": "4.2.0",
+            "prometheus-client": "0.19.0",
+            "promise": "2.3",
+            "prompt-toolkit": "3.0.43",
+            "prophet": "1.1.5",
+            "proto-plus": "1.23.0",
+            "protobuf": "3.20.3",
+            "psutil": "5.9.5",
+            "psycopg2": "2.9.9",
+            "ptyprocess": "0.7.0",
+            "py4j": "0.10.9.7",
+            "pyopenssl": "23.3.0",
+            "py-cpuinfo": "9.0.0",
+            "pyarrow": "10.0.1",
+            "pyarrow-hotfix": "0.6",
+            "pyasn1": "0.5.1",
+            "pyasn1-modules": "0.3.0",
+            "pycocotools": "2.0.7",
+            "pycparser": "2.21",
+            "pyct": "0.5.0",
+            "pydantic": "1.10.13",
+            "pydata-google-auth": "1.8.2",
+            "pydot": "1.4.2",
+            "pydot-ng": "2.0.0",
+            "pydotplus": "2.0.2",
+            "pyerfa": "2.0.1.1",
+            "pygame": "2.5.2",
+            "pymc": "5.7.2",
+            "pymystem3": "0.2.0",
+            "pyparsing": "3.1.1",
+            "pyperclip": "1.8.2",
+            "pyproj": "3.6.1",
+            "pyproject-hooks": "1.0.0",
+            "pyshp": "2.3.1",
+            "pytensor": "2.14.2",
+            "pytest": "7.4.4",
+            "python-apt": "0.0.0",
+            "python-box": "7.1.1",
+            "python-dateutil": "2.8.2",
+            "python-louvain": "0.16",
+            "python-slugify": "8.0.1",
+            "python-utils": "3.8.1",
+            "pytz": "2023.3.post1",
+            "pyviz-comms": "3.0.0",
+            "pywavelets": "1.5.0",
+            "pyzmq": "23.2.1",
+            "qdldl": "0.1.7.post0",
+            "qudida": "0.0.4",
+            "ratelim": "0.1.6",
+            "referencing": "0.32.1",
+            "regex": "2023.6.3",
+            "requests": "2.31.0",
+            "requests-oauthlib": "1.3.1",
+            "requirements-parser": "0.5.0",
+            "rich": "13.7.0",
+            "rpds-py": "0.16.2",
+            "rpy2": "3.4.2",
+            "rsa": "4.9",
+            "safetensors": "0.4.1",
+            "scikit-image": "0.19.3",
+            "scikit-learn": "1.2.2",
+            "scipy": "1.11.4",
+            "scooby": "0.9.2",
+            "scs": "3.2.4.post1",
+            "seaborn": "0.12.2",
+            "setuptools": "67.7.2",
+            "shapely": "2.0.2",
+            "six": "1.16.0",
+            "sklearn-pandas": "2.2.0",
+            "smart-open": "6.4.0",
+            "sniffio": "1.3.0",
+            "snowballstemmer": "2.2.0",
+            "sortedcontainers": "2.4.0",
+            "soundfile": "0.12.1",
+            "soupsieve": "2.5",
+            "soxr": "0.3.7",
+            "spacy": "3.6.1",
+            "spacy-legacy": "3.0.12",
+            "spacy-loggers": "1.0.5",
+            "sphinxcontrib-applehelp": "1.0.7",
+            "sphinxcontrib-devhelp": "1.0.5",
+            "sphinxcontrib-htmlhelp": "2.0.4",
+            "sphinxcontrib-jsmath": "1.0.1",
+            "sphinxcontrib-qthelp": "1.0.6",
+            "sphinxcontrib-serializinghtml": "1.1.9",
+            "sqlglot": "19.9.0",
+            "sqlparse": "0.4.4",
+            "srsly": "2.4.8",
+            "stanio": "0.3.0",
+            "statsmodels": "0.14.1",
+            "sympy": "1.12",
+            "tables": "3.8.0",
+            "tabulate": "0.9.0",
+            "tbb": "2021.11.0",
+            "tblib": "3.0.0",
+            "tenacity": "8.2.3",
+            "tensorboard": "2.15.1",
+            "tensorboard-data-server": "0.7.2",
+            "tensorflow": "2.15.0",
+            "tensorflow-datasets": "4.9.4",
+            "tensorflow-estimator": "2.15.0",
+            "tensorflow-gcs-config": "2.15.0",
+            "tensorflow-hub": "0.15.0",
+            "tensorflow-io-gcs-filesystem": "0.35.0",
+            "tensorflow-metadata": "1.14.0",
+            "tensorflow-probability": "0.22.0",
+            "tensorstore": "0.1.45",
+            "termcolor": "2.4.0",
+            "terminado": "0.18.0",
+            "text-unidecode": "1.3",
+            "textblob": "0.17.1",
+            "tf-slim": "1.1.0",
+            "thinc": "8.1.12",
+            "threadpoolctl": "3.2.0",
+            "tifffile": "2023.12.9",
+            "tinycss2": "1.2.1",
+            "tokenizers": "0.15.0",
+            "toml": "0.10.2",
+            "tomli": "2.0.1",
+            "toolz": "0.12.0",
+            "torch": "2.1.0+cu121",
+            "torchaudio": "2.1.0+cu121",
+            "torchdata": "0.7.0",
+            "torchsummary": "1.5.1",
+            "torchtext": "0.16.0",
+            "torchvision": "0.16.0+cu121",
+            "tornado": "6.3.2",
+            "tqdm": "4.66.1",
+            "traitlets": "5.7.1",
+            "traittypes": "0.2.1",
+            "transformers": "4.35.2",
+            "triton": "2.1.0",
+            "tweepy": "4.14.0",
+            "typer": "0.9.0",
+            "types-pytz": "2023.3.1.1",
+            "types-setuptools": "69.0.0.20240106",
+            "typing-extensions": "4.5.0",
+            "tzlocal": "5.2",
+            "uc-micro-py": "1.0.2",
+            "uritemplate": "4.1.1",
+            "urllib3": "2.0.7",
+            "vega-datasets": "0.9.0",
+            "wasabi": "1.1.2",
+            "wcwidth": "0.2.12",
+            "webcolors": "1.13",
+            "webencodings": "0.5.1",
+            "websocket-client": "1.7.0",
+            "werkzeug": "3.0.1",
+            "wheel": "0.42.0",
+            "widgetsnbextension": "3.6.6",
+            "wordcloud": "1.9.3",
+            "wrapt": "1.14.1",
+            "xarray": "2023.7.0",
+            "xarray-einstats": "0.6.0",
+            "xgboost": "2.0.3",
+            "xlrd": "2.0.1",
+            "xxhash": "3.4.1",
+            "xyzservices": "2023.10.1",
+            "yarl": "1.9.4",
+            "yellowbrick": "1.5",
+            "yfinance": "0.2.33",
+            "zict": "3.0.0",
+            "zipp": "3.17.0",
+            "pygobject": "3.42.1",
+            "pyjwt": "2.3.0",
+            "secretstorage": "3.3.1",
+            "blinker": "1.4",
+            "dbus-python": "1.2.18",
+            "distro": "1.7.0",
+            "jeepney": "0.7.1",
+            "keyring": "23.5.0",
+            "launchpadlib": "1.10.16",
+            "lazr.restfulclient": "0.14.4",
+            "lazr.uri": "1.0.6",
+            "wadllib": "1.3.6"
+        }
+    }
+}
+------- config parameters end --------
+
+Epoch 1 (2/100)  - Train_Inference_Time: 18278.90625	Train_PPYoloELoss/loss_cls: 1.9351181983947754	Train_PPYoloELoss/loss_iou: 0.8914132714271545	Train_PPYoloELoss/loss_dfl: 0.9132718443870544	Train_PPYoloELoss/loss: 3.7398033142089844	
+
+Epoch 1 (2/100)  - Valid_Inference_Time: 1329.7476806640625	Valid_PPYoloELoss/loss_cls: 2.1287803649902344	Valid_PPYoloELoss/loss_iou: 0.6729633808135986	Valid_PPYoloELoss/loss_dfl: 0.8450048565864563	Valid_PPYoloELoss/loss: 3.6467487812042236	Valid_Precision@0.50: 0.0	Valid_Recall@0.50: 0.0	Valid_mAP@0.50: 0.012877045199275017	Valid_F1@0.50: 0.0	
+
+Epoch 1 (2/100)  - Test_Inference_Time: 0.0	
+
+Epoch 1 (2/100)  - LR: 1e-06	
+
+Epoch 2 (3/100)  - Train_Inference_Time: 32782.36328125	Train_PPYoloELoss/loss_cls: 1.507637619972229	Train_PPYoloELoss/loss_iou: 0.8588520288467407	Train_PPYoloELoss/loss_dfl: 0.872434139251709	Train_PPYoloELoss/loss: 3.238924264907837	
+
+Epoch 2 (3/100)  - Valid_Inference_Time: 1985.5069580078125	Valid_PPYoloELoss/loss_cls: 2.128037452697754	Valid_PPYoloELoss/loss_iou: 1.112890362739563	Valid_PPYoloELoss/loss_dfl: 1.231258749961853	Valid_PPYoloELoss/loss: 4.47218656539917	Valid_Precision@0.50: 0.064970001578331	Valid_Recall@0.50: 0.10716013610363007	Valid_mAP@0.50: 0.013176352716982365	Valid_F1@0.50: 0.062151066958904266	
+
+Epoch 2 (3/100)  - Test_Inference_Time: 0.0	
+
+Epoch 2 (3/100)  - LR: 0.00033400000000000004	
+
+Epoch 3 (4/100)  - Train_Inference_Time: 19514.470703125	Train_PPYoloELoss/loss_cls: 1.2366423606872559	Train_PPYoloELoss/loss_iou: 0.8805517554283142	Train_PPYoloELoss/loss_dfl: 0.8621909022331238	Train_PPYoloELoss/loss: 2.979384660720825	
+
+Epoch 3 (4/100)  - Valid_Inference_Time: 1338.204833984375	Valid_PPYoloELoss/loss_cls: 3.741429090499878	Valid_PPYoloELoss/loss_iou: 1.3521555662155151	Valid_PPYoloELoss/loss_dfl: 1.5346651077270508	Valid_PPYoloELoss/loss: 6.6282501220703125	Valid_Precision@0.50: 0.005069742910563946	Valid_Recall@0.50: 0.12070634216070175	Valid_mAP@0.50: 0.004268914461135864	Valid_F1@0.50: 0.009701458737254143	
+
+Epoch 3 (4/100)  - Test_Inference_Time: 0.0	
+
+Epoch 3 (4/100)  - LR: 0.0006670000000000001	
+
+Epoch 4 (5/100)  - Train_Inference_Time: 20323.65625	Train_PPYoloELoss/loss_cls: 1.2267014980316162	Train_PPYoloELoss/loss_iou: 0.8564285039901733	Train_PPYoloELoss/loss_dfl: 0.8598494529724121	Train_PPYoloELoss/loss: 2.942979574203491	
+
+Epoch 4 (5/100)  - Valid_Inference_Time: 1381.9169921875	Valid_PPYoloELoss/loss_cls: 2.0751888751983643	Valid_PPYoloELoss/loss_iou: 1.2915986776351929	Valid_PPYoloELoss/loss_dfl: 1.473617434501648	Valid_PPYoloELoss/loss: 4.840404510498047	Valid_Precision@0.50: 0.004790467210114002	Valid_Recall@0.50: 0.1456216722726822	Valid_mAP@0.50: 0.012251285836100578	Valid_F1@0.50: 0.009238818660378456	
+
+Epoch 4 (5/100)  - Test_Inference_Time: 0.0	
+
+Epoch 4 (5/100)  - LR: 0.001	
+
+Epoch 5 (6/100)  - Train_Inference_Time: 19177.94140625	Train_PPYoloELoss/loss_cls: 1.236028790473938	Train_PPYoloELoss/loss_iou: 0.8165866136550903	Train_PPYoloELoss/loss_dfl: 0.8408790826797485	Train_PPYoloELoss/loss: 2.8934943675994873	
+
+Epoch 5 (6/100)  - Valid_Inference_Time: 1417.03173828125	Valid_PPYoloELoss/loss_cls: 3176.527099609375	Valid_PPYoloELoss/loss_iou: 1.26408052444458	Valid_PPYoloELoss/loss_dfl: 34.82817459106445	Valid_PPYoloELoss/loss: 3212.619140625	Valid_Precision@0.50: 0.0029891147278249264	Valid_Recall@0.50: 0.1376391053199768	Valid_mAP@0.50: 0.0005252424743957818	Valid_F1@0.50: 0.005553793162107468	
+
+Epoch 5 (6/100)  - Test_Inference_Time: 0.0	
+
+Epoch 5 (6/100)  - LR: 0.00099979470302029	
+
+Epoch 6 (7/100)  - Train_Inference_Time: 21965.47265625	Train_PPYoloELoss/loss_cls: 1.2375290393829346	Train_PPYoloELoss/loss_iou: 0.8320073485374451	Train_PPYoloELoss/loss_dfl: 0.8676268458366394	Train_PPYoloELoss/loss: 2.9371631145477295	
+
+Epoch 6 (7/100)  - Valid_Inference_Time: 2418.2490234375	Valid_PPYoloELoss/loss_cls: 6.735437870025635	Valid_PPYoloELoss/loss_iou: 0.8429851531982422	Valid_PPYoloELoss/loss_dfl: 1.0741032361984253	Valid_PPYoloELoss/loss: 8.65252685546875	Valid_Precision@0.50: 0.017281224951148033	Valid_Recall@0.50: 0.38219642639160156	Valid_mAP@0.50: 0.010539761744439602	Valid_F1@0.50: 0.03165252134203911	
+
+Epoch 6 (7/100)  - Test_Inference_Time: 0.0	
+
+Epoch 6 (7/100)  - LR: 0.0009991193287826406	
+
+Epoch 7 (8/100)  - Train_Inference_Time: 19069.6484375	Train_PPYoloELoss/loss_cls: 1.222100853919983	Train_PPYoloELoss/loss_iou: 0.8104190230369568	Train_PPYoloELoss/loss_dfl: 0.8468378782272339	Train_PPYoloELoss/loss: 2.8793575763702393	
+
+Epoch 7 (8/100)  - Valid_Inference_Time: 1636.98388671875	Valid_PPYoloELoss/loss_cls: 111.5857162475586	Valid_PPYoloELoss/loss_iou: 1.0681743621826172	Valid_PPYoloELoss/loss_dfl: 14.137593269348145	Valid_PPYoloELoss/loss: 126.79147338867188	Valid_Precision@0.50: 0.015168260782957077	Valid_Recall@0.50: 0.2312530279159546	Valid_mAP@0.50: 0.005251952446997166	Valid_F1@0.50: 0.027035657316446304	
+
+Epoch 7 (8/100)  - Test_Inference_Time: 0.0	
+
+Epoch 7 (8/100)  - LR: 0.0009979735371759247	
+
+Epoch 8 (9/100)  - Train_Inference_Time: 20205.748046875	Train_PPYoloELoss/loss_cls: 1.2338685989379883	Train_PPYoloELoss/loss_iou: 0.7747414708137512	Train_PPYoloELoss/loss_dfl: 0.8163301348686218	Train_PPYoloELoss/loss: 2.8249402046203613	
+
+Epoch 8 (9/100)  - Valid_Inference_Time: 2003.4505615234375	Valid_PPYoloELoss/loss_cls: 12.247233390808105	Valid_PPYoloELoss/loss_iou: 0.7930583953857422	Valid_PPYoloELoss/loss_dfl: 0.8968472480773926	Valid_PPYoloELoss/loss: 13.937137603759766	Valid_Precision@0.50: 0.01953382045030594	Valid_Recall@0.50: 0.4496855139732361	Valid_mAP@0.50: 0.015708548948168755	Valid_F1@0.50: 0.0369296669960022	
+
+Epoch 8 (9/100)  - Test_Inference_Time: 0.0	
+
+Epoch 8 (9/100)  - LR: 0.0009963585283272337	
+
+Epoch 9 (10/100)  - Train_Inference_Time: 23838.5703125	Train_PPYoloELoss/loss_cls: 1.2216142416000366	Train_PPYoloELoss/loss_iou: 0.7877922654151917	Train_PPYoloELoss/loss_dfl: 0.8215291500091553	Train_PPYoloELoss/loss: 2.83093523979187	
+
+Epoch 9 (10/100)  - Valid_Inference_Time: 1636.59716796875	Valid_PPYoloELoss/loss_cls: 1.9471230506896973	Valid_PPYoloELoss/loss_iou: 0.7283509373664856	Valid_PPYoloELoss/loss_dfl: 0.8408848643302917	Valid_PPYoloELoss/loss: 3.5163586139678955	Valid_Precision@0.50: 0.02792646549642086	Valid_Recall@0.50: 0.5036284327507019	Valid_mAP@0.50: 0.09389058500528336	Valid_F1@0.50: 0.051431018859148026	
+
+Epoch 9 (10/100)  - Test_Inference_Time: 0.0	
+
+Epoch 9 (10/100)  - LR: 0.0009942759938320177	
+
+Epoch 10 (11/100)  - Train_Inference_Time: 18463.3203125	Train_PPYoloELoss/loss_cls: 1.2265466451644897	Train_PPYoloELoss/loss_iou: 0.7617073059082031	Train_PPYoloELoss/loss_dfl: 0.8112099170684814	Train_PPYoloELoss/loss: 2.799463987350464	
+
+Epoch 10 (11/100)  - Valid_Inference_Time: 1365.14453125	Valid_PPYoloELoss/loss_cls: 1.5703778266906738	Valid_PPYoloELoss/loss_iou: 0.7037777304649353	Valid_PPYoloELoss/loss_dfl: 0.8341403603553772	Valid_PPYoloELoss/loss: 3.1082961559295654	Valid_Precision@0.50: 0.027263093739748	Valid_Recall@0.50: 0.6028059720993042	Valid_mAP@0.50: 0.13770557940006256	Valid_F1@0.50: 0.051754385232925415	
+
+Epoch 10 (11/100)  - Test_Inference_Time: 0.0	
+
+Epoch 10 (11/100)  - LR: 0.0009917281149822758	
+
+Epoch 11 (12/100)  - Train_Inference_Time: 23748.921875	Train_PPYoloELoss/loss_cls: 1.2223542928695679	Train_PPYoloELoss/loss_iou: 0.7656984329223633	Train_PPYoloELoss/loss_dfl: 0.8115777969360352	Train_PPYoloELoss/loss: 2.799630641937256	
+
+Epoch 11 (12/100)  - Valid_Inference_Time: 2865.798828125	Valid_PPYoloELoss/loss_cls: 1.4933503866195679	Valid_PPYoloELoss/loss_iou: 0.7131206393241882	Valid_PPYoloELoss/loss_dfl: 0.7990153431892395	Valid_PPYoloELoss/loss: 3.005486488342285	Valid_Precision@0.50: 0.029341332614421844	Valid_Recall@0.50: 0.538703441619873	Valid_mAP@0.50: 0.10596936196088791	Valid_F1@0.50: 0.05440136045217514	
+
+Epoch 11 (12/100)  - Test_Inference_Time: 0.0	
+
+Epoch 11 (12/100)  - LR: 0.0009887175604818205	
+
+Epoch 12 (13/100)  - Train_Inference_Time: 21130.5390625	Train_PPYoloELoss/loss_cls: 1.2137480974197388	Train_PPYoloELoss/loss_iou: 0.7494997978210449	Train_PPYoloELoss/loss_dfl: 0.8063127994537354	Train_PPYoloELoss/loss: 2.7695608139038086	
+
+Epoch 12 (13/100)  - Valid_Inference_Time: 2270.0888671875	Valid_PPYoloELoss/loss_cls: 1.358634114265442	Valid_PPYoloELoss/loss_iou: 0.6857773661613464	Valid_PPYoloELoss/loss_dfl: 0.7774490714073181	Valid_PPYoloELoss/loss: 2.8218605518341064	Valid_Precision@0.50: 0.03136293590068817	Valid_Recall@0.50: 0.6088534593582153	Valid_mAP@0.50: 0.1529165655374527	Valid_F1@0.50: 0.058778829872608185	
+
+Epoch 12 (13/100)  - Test_Inference_Time: 0.0	
+
+Epoch 12 (13/100)  - LR: 0.0009852474836510214	
+
+Epoch 13 (14/100)  - Train_Inference_Time: 20561.1015625	Train_PPYoloELoss/loss_cls: 1.218214750289917	Train_PPYoloELoss/loss_iou: 0.7404904961585999	Train_PPYoloELoss/loss_dfl: 0.7965958714485168	Train_PPYoloELoss/loss: 2.7553012371063232	
+
+Epoch 13 (14/100)  - Valid_Inference_Time: 1772.9425048828125	Valid_PPYoloELoss/loss_cls: 1.3479632139205933	Valid_PPYoloELoss/loss_iou: 0.6461107134819031	Valid_PPYoloELoss/loss_dfl: 0.75596684217453	Valid_PPYoloELoss/loss: 2.7500407695770264	Valid_Precision@0.50: 0.027111532166600227	Valid_Recall@0.50: 0.6473149657249451	Valid_mAP@0.50: 0.1192997395992279	Valid_F1@0.50: 0.051764313131570816	
+
+Epoch 13 (14/100)  - Test_Inference_Time: 0.0	
+
+Epoch 13 (14/100)  - LR: 0.000981321519123946	
+
+Epoch 14 (15/100)  - Train_Inference_Time: 20863.7265625	Train_PPYoloELoss/loss_cls: 1.2179518938064575	Train_PPYoloELoss/loss_iou: 0.7337443828582764	Train_PPYoloELoss/loss_dfl: 0.7978553771972656	Train_PPYoloELoss/loss: 2.74955153465271	
+
+Epoch 14 (15/100)  - Valid_Inference_Time: 2062.543701171875	Valid_PPYoloELoss/loss_cls: 1.363345980644226	Valid_PPYoloELoss/loss_iou: 0.6430873870849609	Valid_PPYoloELoss/loss_dfl: 0.7867129445075989	Valid_PPYoloELoss/loss: 2.7931461334228516	Valid_Precision@0.50: 0.021317970007658005	Valid_Recall@0.50: 0.6216739416122437	Valid_mAP@0.50: 0.17036452889442444	Valid_F1@0.50: 0.041146986186504364	
+
+Epoch 14 (15/100)  - Test_Inference_Time: 0.0	
+
+Epoch 14 (15/100)  - LR: 0.0009769437790413682	
+
+Epoch 15 (16/100)  - Train_Inference_Time: 20801.625	Train_PPYoloELoss/loss_cls: 1.2199294567108154	Train_PPYoloELoss/loss_iou: 0.7354102730751038	Train_PPYoloELoss/loss_dfl: 0.8052019476890564	Train_PPYoloELoss/loss: 2.7605416774749756	
+
+Epoch 15 (16/100)  - Valid_Inference_Time: 2548.397705078125	Valid_PPYoloELoss/loss_cls: 1.3202898502349854	Valid_PPYoloELoss/loss_iou: 0.6240050792694092	Valid_PPYoloELoss/loss_dfl: 0.750563383102417	Valid_PPYoloELoss/loss: 2.6948585510253906	Valid_Precision@0.50: 0.03486466035246849	Valid_Recall@0.50: 0.6405418515205383	Valid_mAP@0.50: 0.1762477308511734	Valid_F1@0.50: 0.06505726277828217	
+
+Epoch 15 (16/100)  - Test_Inference_Time: 0.0	
+
+Epoch 15 (16/100)  - LR: 0.0009721188487436196	
+
+Epoch 16 (17/100)  - Train_Inference_Time: 23529.798828125	Train_PPYoloELoss/loss_cls: 1.2253729104995728	Train_PPYoloELoss/loss_iou: 0.7120143175125122	Train_PPYoloELoss/loss_dfl: 0.7992779016494751	Train_PPYoloELoss/loss: 2.7366650104522705	
+
+Epoch 16 (17/100)  - Valid_Inference_Time: 1738.1888427734375	Valid_PPYoloELoss/loss_cls: 1.3116459846496582	Valid_PPYoloELoss/loss_iou: 0.6366317868232727	Valid_PPYoloELoss/loss_dfl: 0.7620930671691895	Valid_PPYoloELoss/loss: 2.7103710174560547	Valid_Precision@0.50: 0.032814815640449524	Valid_Recall@0.50: 0.6378810405731201	Valid_mAP@0.50: 0.177986741065979	Valid_F1@0.50: 0.061999715864658356	
+
+Epoch 16 (17/100)  - Test_Inference_Time: 0.0	
+
+Epoch 16 (17/100)  - LR: 0.0009668517819678053	
+
+Epoch 17 (18/100)  - Train_Inference_Time: 19877.685546875	Train_PPYoloELoss/loss_cls: 1.2327320575714111	Train_PPYoloELoss/loss_iou: 0.7395536303520203	Train_PPYoloELoss/loss_dfl: 0.8054799437522888	Train_PPYoloELoss/loss: 2.7777655124664307	
+
+Epoch 17 (18/100)  - Valid_Inference_Time: 2327.213623046875	Valid_PPYoloELoss/loss_cls: 1.3144761323928833	Valid_PPYoloELoss/loss_iou: 0.745007336139679	Valid_PPYoloELoss/loss_dfl: 0.8659289479255676	Valid_PPYoloELoss/loss: 2.92541241645813	Valid_Precision@0.50: 0.02405555546283722	Valid_Recall@0.50: 0.5549104809761047	Valid_mAP@0.50: 0.11845569312572479	Valid_F1@0.50: 0.04576233774423599	
+
+Epoch 17 (18/100)  - Test_Inference_Time: 0.0	
+
+Epoch 17 (18/100)  - LR: 0.0009611480955544101	
+
+Epoch 18 (19/100)  - Train_Inference_Time: 22636.78125	Train_PPYoloELoss/loss_cls: 1.2238813638687134	Train_PPYoloELoss/loss_iou: 0.7345019578933716	Train_PPYoloELoss/loss_dfl: 0.7938626408576965	Train_PPYoloELoss/loss: 2.7522459030151367	
+
+Epoch 18 (19/100)  - Valid_Inference_Time: 2279.788818359375	Valid_PPYoloELoss/loss_cls: 1.3261899948120117	Valid_PPYoloELoss/loss_iou: 0.6650645732879639	Valid_PPYoloELoss/loss_dfl: 0.803610622882843	Valid_PPYoloELoss/loss: 2.794865369796753	Valid_Precision@0.50: 0.032699938863515854	Valid_Recall@0.50: 0.634494423866272	Valid_mAP@0.50: 0.198276549577713	Valid_F1@0.50: 0.06145944818854332	
+
+Epoch 18 (19/100)  - Test_Inference_Time: 0.0	
+
+Epoch 18 (19/100)  - LR: 0.0009550137636688385	
+
+Epoch 19 (20/100)  - Train_Inference_Time: 19679.9921875	Train_PPYoloELoss/loss_cls: 1.2035377025604248	Train_PPYoloELoss/loss_iou: 0.7069260478019714	Train_PPYoloELoss/loss_dfl: 0.7771497368812561	Train_PPYoloELoss/loss: 2.6876132488250732	
+
+Epoch 19 (20/100)  - Valid_Inference_Time: 1669.7601318359375	Valid_PPYoloELoss/loss_cls: 1.3686050176620483	Valid_PPYoloELoss/loss_iou: 0.661384642124176	Valid_PPYoloELoss/loss_dfl: 0.820565402507782	Valid_PPYoloELoss/loss: 2.8505547046661377	Valid_Precision@0.50: 0.030467014759778976	Valid_Recall@0.50: 0.5933720469474792	Valid_mAP@0.50: 0.17982026934623718	Valid_F1@0.50: 0.05732468515634537	
+
+Epoch 19 (20/100)  - Test_Inference_Time: 0.0	
+
+Epoch 19 (20/100)  - LR: 0.0009484552115439444	
+
+Epoch 20 (21/100)  - Train_Inference_Time: 19626.0	Train_PPYoloELoss/loss_cls: 1.2034761905670166	Train_PPYoloELoss/loss_iou: 0.6920567154884338	Train_PPYoloELoss/loss_dfl: 0.7667020559310913	Train_PPYoloELoss/loss: 2.6622345447540283	
+
+Epoch 20 (21/100)  - Valid_Inference_Time: 1539.2994384765625	Valid_PPYoloELoss/loss_cls: 1.289324164390564	Valid_PPYoloELoss/loss_iou: 0.6260050535202026	Valid_PPYoloELoss/loss_dfl: 0.7608267664909363	Valid_PPYoloELoss/loss: 2.6761560440063477	Valid_Precision@0.50: 0.03616376966238022	Valid_Recall@0.50: 0.6790033578872681	Valid_mAP@0.50: 0.21631397306919098	Valid_F1@0.50: 0.06789633631706238	
+
+Epoch 20 (21/100)  - Test_Inference_Time: 0.0	
+
+Epoch 20 (21/100)  - LR: 0.0009414793087501021	
+
+Epoch 21 (22/100)  - Train_Inference_Time: 21267.83203125	Train_PPYoloELoss/loss_cls: 1.2011744976043701	Train_PPYoloELoss/loss_iou: 0.6852649450302124	Train_PPYoloELoss/loss_dfl: 0.7608907222747803	Train_PPYoloELoss/loss: 2.6473302841186523	
+
+Epoch 21 (22/100)  - Valid_Inference_Time: 2305.215087890625	Valid_PPYoloELoss/loss_cls: 1.3159157037734985	Valid_PPYoloELoss/loss_iou: 0.6071915626525879	Valid_PPYoloELoss/loss_dfl: 0.74327152967453	Valid_PPYoloELoss/loss: 2.6663787364959717	Valid_Precision@0.50: 0.035659778863191605	Valid_Recall@0.50: 0.6790033578872681	Valid_mAP@0.50: 0.18932539224624634	Valid_F1@0.50: 0.06699924170970917	
+
+Epoch 21 (22/100)  - Test_Inference_Time: 0.0	
+
+Epoch 21 (22/100)  - LR: 0.0009340933619998681	
+
+Epoch 22 (23/100)  - Train_Inference_Time: 19881.134765625	Train_PPYoloELoss/loss_cls: 1.2232592105865479	Train_PPYoloELoss/loss_iou: 0.6799559593200684	Train_PPYoloELoss/loss_dfl: 0.7732923030853271	Train_PPYoloELoss/loss: 2.6765072345733643	
+
+Epoch 22 (23/100)  - Valid_Inference_Time: 1693.263916015625	Valid_PPYoloELoss/loss_cls: 1.2938647270202637	Valid_PPYoloELoss/loss_iou: 0.6064321994781494	Valid_PPYoloELoss/loss_dfl: 0.7576785087585449	Valid_PPYoloELoss/loss: 2.657975435256958	Valid_Precision@0.50: 0.03312911465764046	Valid_Recall@0.50: 0.6499758362770081	Valid_mAP@0.50: 0.19228103756904602	Valid_F1@0.50: 0.06267313659191132	
+
+Epoch 22 (23/100)  - Test_Inference_Time: 0.0	
+
+Epoch 22 (23/100)  - LR: 0.0009263051074947723	
+
+Epoch 23 (24/100)  - Train_Inference_Time: 26111.41015625	Train_PPYoloELoss/loss_cls: 1.2137287855148315	Train_PPYoloELoss/loss_iou: 0.7029994130134583	Train_PPYoloELoss/loss_dfl: 0.7826148271560669	Train_PPYoloELoss/loss: 2.699343204498291	
+
+Epoch 23 (24/100)  - Valid_Inference_Time: 2056.701416015625	Valid_PPYoloELoss/loss_cls: 1.2802637815475464	Valid_PPYoloELoss/loss_iou: 0.6336563229560852	Valid_PPYoloELoss/loss_dfl: 0.7803768515586853	Valid_PPYoloELoss/loss: 2.6942970752716064	Valid_Precision@0.50: 0.035928286612033844	Valid_Recall@0.50: 0.6284470558166504	Valid_mAP@0.50: 0.16479143500328064	Valid_F1@0.50: 0.06716125458478928	
+
+Epoch 23 (24/100)  - Test_Inference_Time: 0.0	
+
+Epoch 23 (24/100)  - LR: 0.0009181227028222509	
+
+Epoch 24 (25/100)  - Train_Inference_Time: 21239.7421875	Train_PPYoloELoss/loss_cls: 1.1940160989761353	Train_PPYoloELoss/loss_iou: 0.6953551769256592	Train_PPYoloELoss/loss_dfl: 0.7591342329978943	Train_PPYoloELoss/loss: 2.648505449295044	
+
+Epoch 24 (25/100)  - Valid_Inference_Time: 1771.7958984375	Valid_PPYoloELoss/loss_cls: 3.240575075149536	Valid_PPYoloELoss/loss_iou: 0.6947507858276367	Valid_PPYoloELoss/loss_dfl: 0.8156374096870422	Valid_PPYoloELoss/loss: 4.75096321105957	Valid_Precision@0.50: 0.02492256835103035	Valid_Recall@0.50: 0.5643444657325745	Valid_mAP@0.50: 0.08845283091068268	Valid_F1@0.50: 0.04715320095419884	
+
+Epoch 24 (25/100)  - Test_Inference_Time: 0.0	
+
+Epoch 24 (25/100)  - LR: 0.0009095547184112122	
+
+Epoch 25 (26/100)  - Train_Inference_Time: 20967.08984375	Train_PPYoloELoss/loss_cls: 1.220100998878479	Train_PPYoloELoss/loss_iou: 0.7033655047416687	Train_PPYoloELoss/loss_dfl: 0.7911229729652405	Train_PPYoloELoss/loss: 2.7145893573760986	
+
+Epoch 25 (26/100)  - Valid_Inference_Time: 2606.33837890625	Valid_PPYoloELoss/loss_cls: 1.3505100011825562	Valid_PPYoloELoss/loss_iou: 0.6809794306755066	Valid_PPYoloELoss/loss_dfl: 0.8280205130577087	Valid_PPYoloELoss/loss: 2.8595097064971924	Valid_Precision@0.50: 0.031038418412208557	Valid_Recall@0.50: 0.6156265139579773	Valid_mAP@0.50: 0.12862622737884521	Valid_F1@0.50: 0.0585065633058548	
+
+Epoch 25 (26/100)  - Test_Inference_Time: 0.0	
+
+Epoch 25 (26/100)  - LR: 0.0009006101285551825	
+
+Epoch 26 (27/100)  - Train_Inference_Time: 21927.541015625	Train_PPYoloELoss/loss_cls: 1.2037922143936157	Train_PPYoloELoss/loss_iou: 0.6904564499855042	Train_PPYoloELoss/loss_dfl: 0.765445351600647	Train_PPYoloELoss/loss: 2.659693717956543	
+
+Epoch 26 (27/100)  - Valid_Inference_Time: 1784.7861328125	Valid_PPYoloELoss/loss_cls: 1.277445912361145	Valid_PPYoloELoss/loss_iou: 0.6101345419883728	Valid_PPYoloELoss/loss_dfl: 0.7647212147712708	Valid_PPYoloELoss/loss: 2.652301788330078	Valid_Precision@0.50: 0.030816808342933655	Valid_Recall@0.50: 0.5865989923477173	Valid_mAP@0.50: 0.20608438551425934	Valid_F1@0.50: 0.058001793920993805	
+
+Epoch 26 (27/100)  - Test_Inference_Time: 0.0	
+
+Epoch 26 (27/100)  - LR: 0.0008912983020124358	
+
+Epoch 27 (28/100)  - Train_Inference_Time: 22558.44921875	Train_PPYoloELoss/loss_cls: 1.199326992034912	Train_PPYoloELoss/loss_iou: 0.6817489862442017	Train_PPYoloELoss/loss_dfl: 0.7694625854492188	Train_PPYoloELoss/loss: 2.650538444519043	
+
+Epoch 27 (28/100)  - Valid_Inference_Time: 2009.50830078125	Valid_PPYoloELoss/loss_cls: 1.2587600946426392	Valid_PPYoloELoss/loss_iou: 0.6119630932807922	Valid_PPYoloELoss/loss_dfl: 0.7669321894645691	Valid_PPYoloELoss/loss: 2.63765549659729	Valid_Precision@0.50: 0.034569986164569855	Valid_Recall@0.50: 0.5960329174995422	Valid_mAP@0.50: 0.23279210925102234	Valid_F1@0.50: 0.06476150453090668	
+
+Epoch 27 (28/100)  - Test_Inference_Time: 0.0	
+
+Epoch 27 (28/100)  - LR: 0.0008816289921929518	
+
+Epoch 28 (29/100)  - Train_Inference_Time: 21225.322265625	Train_PPYoloELoss/loss_cls: 1.1956878900527954	Train_PPYoloELoss/loss_iou: 0.6664252877235413	Train_PPYoloELoss/loss_dfl: 0.7494826316833496	Train_PPYoloELoss/loss: 2.61159610748291	
+
+Epoch 28 (29/100)  - Valid_Inference_Time: 1745.9412841796875	Valid_PPYoloELoss/loss_cls: 1.2699335813522339	Valid_PPYoloELoss/loss_iou: 0.6235408782958984	Valid_PPYoloELoss/loss_dfl: 0.7629669308662415	Valid_PPYoloELoss/loss: 2.6564414501190186	Valid_Precision@0.50: 0.037349119782447815	Valid_Recall@0.50: 0.65674889087677	Valid_mAP@0.50: 0.2593085765838623	Valid_F1@0.50: 0.06990639120340347	
+
+Epoch 28 (29/100)  - Test_Inference_Time: 0.0	
+
+Epoch 28 (29/100)  - LR: 0.0008716123269424816	
+
+Epoch 29 (30/100)  - Train_Inference_Time: 20122.775390625	Train_PPYoloELoss/loss_cls: 1.1907042264938354	Train_PPYoloELoss/loss_iou: 0.6717119216918945	Train_PPYoloELoss/loss_dfl: 0.7524686455726624	Train_PPYoloELoss/loss: 2.614884614944458	
+
+Epoch 29 (30/100)  - Valid_Inference_Time: 1712.546142578125	Valid_PPYoloELoss/loss_cls: 1.2722587585449219	Valid_PPYoloELoss/loss_iou: 0.5865032076835632	Valid_PPYoloELoss/loss_dfl: 0.7151698470115662	Valid_PPYoloELoss/loss: 2.5739316940307617	Valid_Precision@0.50: 0.050217099487781525	Valid_Recall@0.50: 0.6533623933792114	Valid_mAP@0.50: 0.2511132061481476	Valid_F1@0.50: 0.09047335386276245	
+
+Epoch 29 (30/100)  - Test_Inference_Time: 0.0	
+
+Epoch 29 (30/100)  - LR: 0.0008612587979344229	
+
+Epoch 30 (31/100)  - Train_Inference_Time: 20833.685546875	Train_PPYoloELoss/loss_cls: 1.1947963237762451	Train_PPYoloELoss/loss_iou: 0.6788455247879028	Train_PPYoloELoss/loss_dfl: 0.7499688267707825	Train_PPYoloELoss/loss: 2.623610496520996	
+
+Epoch 30 (31/100)  - Valid_Inference_Time: 2011.0531005859375	Valid_PPYoloELoss/loss_cls: 1.2614537477493286	Valid_PPYoloELoss/loss_iou: 0.5905026793479919	Valid_PPYoloELoss/loss_dfl: 0.7316771149635315	Valid_PPYoloELoss/loss: 2.5836336612701416	Valid_Precision@0.50: 0.038496844470500946	Valid_Recall@0.50: 0.6756168603897095	Valid_mAP@0.50: 0.257550448179245	Valid_F1@0.50: 0.07187587022781372	
+
+Epoch 30 (31/100)  - Test_Inference_Time: 0.0	
+
+Epoch 30 (31/100)  - LR: 0.000850579249680611	
+
+Epoch 31 (32/100)  - Train_Inference_Time: 21327.0625	Train_PPYoloELoss/loss_cls: 1.203338384628296	Train_PPYoloELoss/loss_iou: 0.6514428853988647	Train_PPYoloELoss/loss_dfl: 0.7488807439804077	Train_PPYoloELoss/loss: 2.6036620140075684	
+
+Epoch 31 (32/100)  - Valid_Inference_Time: 3013.9912109375	Valid_PPYoloELoss/loss_cls: 1.2705813646316528	Valid_PPYoloELoss/loss_iou: 0.5960451364517212	Valid_PPYoloELoss/loss_dfl: 0.7414839267730713	Valid_PPYoloELoss/loss: 2.6081104278564453	Valid_Precision@0.50: 0.03722329065203667	Valid_Recall@0.50: 0.6884373426437378	Valid_mAP@0.50: 0.24664905667304993	Valid_F1@0.50: 0.06990998983383179	
+
+Epoch 31 (32/100)  - Test_Inference_Time: 0.0	
+
+Epoch 31 (32/100)  - LR: 0.0008395848681725417	
+
+Epoch 32 (33/100)  - Train_Inference_Time: 24166.21484375	Train_PPYoloELoss/loss_cls: 1.1973179578781128	Train_PPYoloELoss/loss_iou: 0.6560825109481812	Train_PPYoloELoss/loss_dfl: 0.748496413230896	Train_PPYoloELoss/loss: 2.6018967628479004	
+
+Epoch 32 (33/100)  - Valid_Inference_Time: 2998.855224609375	Valid_PPYoloELoss/loss_cls: 1.262451410293579	Valid_PPYoloELoss/loss_iou: 0.584341287612915	Valid_PPYoloELoss/loss_dfl: 0.745033323764801	Valid_PPYoloELoss/loss: 2.5918262004852295	Valid_Precision@0.50: 0.0382123664021492	Valid_Recall@0.50: 0.7012578845024109	Valid_mAP@0.50: 0.27435916662216187	Valid_F1@0.50: 0.07181131839752197	
+
+Epoch 32 (33/100)  - Test_Inference_Time: 0.0	
+
+Epoch 32 (33/100)  - LR: 0.00082828716916492	
+
+Epoch 33 (34/100)  - Train_Inference_Time: 22094.83984375	Train_PPYoloELoss/loss_cls: 1.194045901298523	Train_PPYoloELoss/loss_iou: 0.6496148705482483	Train_PPYoloELoss/loss_dfl: 0.7347915172576904	Train_PPYoloELoss/loss: 2.5784523487091064	
+
+Epoch 33 (34/100)  - Valid_Inference_Time: 1646.16357421875	Valid_PPYoloELoss/loss_cls: 1.2676085233688354	Valid_PPYoloELoss/loss_iou: 0.5995558500289917	Valid_PPYoloELoss/loss_dfl: 0.7576426863670349	Valid_PPYoloELoss/loss: 2.6248068809509277	Valid_Precision@0.50: 0.03761109709739685	Valid_Recall@0.50: 0.634494423866272	Valid_mAP@0.50: 0.22250081598758698	Valid_F1@0.50: 0.07011263817548752	
+
+Epoch 33 (34/100)  - Test_Inference_Time: 0.0	
+
+Epoch 33 (34/100)  - LR: 0.0008166979861138077	
+
+Epoch 34 (35/100)  - Train_Inference_Time: 19552.8671875	Train_PPYoloELoss/loss_cls: 1.218917965888977	Train_PPYoloELoss/loss_iou: 0.6559404730796814	Train_PPYoloELoss/loss_dfl: 0.7482187151908875	Train_PPYoloELoss/loss: 2.623077392578125	
+
+Epoch 34 (35/100)  - Valid_Inference_Time: 1917.7135009765625	Valid_PPYoloELoss/loss_cls: 1.290482997894287	Valid_PPYoloELoss/loss_iou: 0.5785654187202454	Valid_PPYoloELoss/loss_dfl: 0.7274620532989502	Valid_PPYoloELoss/loss: 2.596510648727417	Valid_Precision@0.50: 0.040221139788627625	Valid_Recall@0.50: 0.6695694327354431	Valid_mAP@0.50: 0.2462654411792755	Valid_F1@0.50: 0.07531747967004776	
+
+Epoch 34 (35/100)  - Test_Inference_Time: 0.0	
+
+Epoch 34 (35/100)  - LR: 0.0008048294577820038	
+
+Epoch 35 (36/100)  - Train_Inference_Time: 20211.525390625	Train_PPYoloELoss/loss_cls: 1.1953909397125244	Train_PPYoloELoss/loss_iou: 0.6562812924385071	Train_PPYoloELoss/loss_dfl: 0.7509695887565613	Train_PPYoloELoss/loss: 2.602642059326172	
+
+Epoch 35 (36/100)  - Valid_Inference_Time: 1568.5565185546875	Valid_PPYoloELoss/loss_cls: 1.2615560293197632	Valid_PPYoloELoss/loss_iou: 0.5815638899803162	Valid_PPYoloELoss/loss_dfl: 0.7332208752632141	Valid_PPYoloELoss/loss: 2.576340675354004	Valid_Precision@0.50: 0.03493531048297882	Valid_Recall@0.50: 0.6695694327354431	Valid_mAP@0.50: 0.24086302518844604	Valid_F1@0.50: 0.06607487052679062	
+
+Epoch 35 (36/100)  - Test_Inference_Time: 0.0	
+
+Epoch 35 (36/100)  - LR: 0.0007926940155246398	
+
+Epoch 36 (37/100)  - Train_Inference_Time: 20584.45703125	Train_PPYoloELoss/loss_cls: 1.200420618057251	Train_PPYoloELoss/loss_iou: 0.6371093988418579	Train_PPYoloELoss/loss_dfl: 0.7348889708518982	Train_PPYoloELoss/loss: 2.5724189281463623	
+
+Epoch 36 (37/100)  - Valid_Inference_Time: 1614.3214111328125	Valid_PPYoloELoss/loss_cls: 1.25551438331604	Valid_PPYoloELoss/loss_iou: 0.6003345251083374	Valid_PPYoloELoss/loss_dfl: 0.7478073239326477	Valid_PPYoloELoss/loss: 2.60365629196167	Valid_Precision@0.50: 0.0346093624830246	Valid_Recall@0.50: 0.6790033578872681	Valid_mAP@0.50: 0.24189211428165436	Valid_F1@0.50: 0.06538421660661697	
+
+Epoch 36 (37/100)  - Test_Inference_Time: 0.0	
+
+Epoch 36 (37/100)  - LR: 0.0007803043702683074	
+
+Epoch 37 (38/100)  - Train_Inference_Time: 22305.330078125	Train_PPYoloELoss/loss_cls: 1.1914448738098145	Train_PPYoloELoss/loss_iou: 0.6586878299713135	Train_PPYoloELoss/loss_dfl: 0.7467648386955261	Train_PPYoloELoss/loss: 2.596897602081299	
+
+Epoch 37 (38/100)  - Valid_Inference_Time: 1880.271240234375	Valid_PPYoloELoss/loss_cls: 1.2670103311538696	Valid_PPYoloELoss/loss_iou: 0.5756561160087585	Valid_PPYoloELoss/loss_dfl: 0.7290472984313965	Valid_PPYoloELoss/loss: 2.57171368598938	Valid_Precision@0.50: 0.039681240916252136	Valid_Recall@0.50: 0.65674889087677	Valid_mAP@0.50: 0.2527867257595062	Valid_F1@0.50: 0.07416344434022903	
+
+Epoch 37 (38/100)  - Test_Inference_Time: 0.0	
+
+Epoch 37 (38/100)  - LR: 0.000767673499197358	
+
+Epoch 38 (39/100)  - Train_Inference_Time: 22049.52734375	Train_PPYoloELoss/loss_cls: 1.1841884851455688	Train_PPYoloELoss/loss_iou: 0.6460806131362915	Train_PPYoloELoss/loss_dfl: 0.7317707538604736	Train_PPYoloELoss/loss: 2.562040090560913	
+
+Epoch 38 (39/100)  - Valid_Inference_Time: 1782.3104248046875	Valid_PPYoloELoss/loss_cls: 1.2591973543167114	Valid_PPYoloELoss/loss_iou: 0.5868266224861145	Valid_PPYoloELoss/loss_dfl: 0.7339405417442322	Valid_PPYoloELoss/loss: 2.5799646377563477	Valid_Precision@0.50: 0.035367097705602646	Valid_Recall@0.50: 0.6405418515205383	Valid_mAP@0.50: 0.24760396778583527	Valid_F1@0.50: 0.06629664450883865	
+
+Epoch 38 (39/100)  - Test_Inference_Time: 0.0	
+
+Epoch 38 (39/100)  - LR: 0.0007548146321613153	
+
+Epoch 39 (40/100)  - Train_Inference_Time: 19697.783203125	Train_PPYoloELoss/loss_cls: 1.1727986335754395	Train_PPYoloELoss/loss_iou: 0.6493600606918335	Train_PPYoloELoss/loss_dfl: 0.7386937141418457	Train_PPYoloELoss/loss: 2.5608527660369873	
+
+Epoch 39 (40/100)  - Valid_Inference_Time: 1993.1790771484375	Valid_PPYoloELoss/loss_cls: 1.2284821271896362	Valid_PPYoloELoss/loss_iou: 0.578310489654541	Valid_PPYoloELoss/loss_dfl: 0.716331422328949	Valid_PPYoloELoss/loss: 2.5231239795684814	Valid_Precision@0.50: 0.04318606108427048	Valid_Recall@0.50: 0.6850508451461792	Valid_mAP@0.50: 0.2601262927055359	Valid_F1@0.50: 0.0801563709974289	
+
+Epoch 39 (40/100)  - Test_Inference_Time: 0.0	
+
+Epoch 39 (40/100)  - LR: 0.0007417412378176446	
+
+Epoch 40 (41/100)  - Train_Inference_Time: 22904.330078125	Train_PPYoloELoss/loss_cls: 1.1649940013885498	Train_PPYoloELoss/loss_iou: 0.6508384346961975	Train_PPYoloELoss/loss_dfl: 0.741456925868988	Train_PPYoloELoss/loss: 2.5572896003723145	
+
+Epoch 40 (41/100)  - Valid_Inference_Time: 1619.1563720703125	Valid_PPYoloELoss/loss_cls: 1.2298637628555298	Valid_PPYoloELoss/loss_iou: 0.5885037779808044	Valid_PPYoloELoss/loss_dfl: 0.7272517085075378	Valid_PPYoloELoss/loss: 2.545619249343872	Valid_Precision@0.50: 0.03392772749066353	Valid_Recall@0.50: 0.7295597791671753	Valid_mAP@0.50: 0.2841799259185791	Valid_F1@0.50: 0.06461449712514877	
+
+Epoch 40 (41/100)  - Test_Inference_Time: 0.0	
+
+Epoch 40 (41/100)  - LR: 0.0007284670095243858	
+
+Epoch 41 (42/100)  - Train_Inference_Time: 20950.048828125	Train_PPYoloELoss/loss_cls: 1.1863569021224976	Train_PPYoloELoss/loss_iou: 0.6453568339347839	Train_PPYoloELoss/loss_dfl: 0.7367769479751587	Train_PPYoloELoss/loss: 2.568490505218506	
+
+Epoch 41 (42/100)  - Valid_Inference_Time: 1829.95361328125	Valid_PPYoloELoss/loss_cls: 1.2283707857131958	Valid_PPYoloELoss/loss_iou: 0.5998867154121399	Valid_PPYoloELoss/loss_dfl: 0.7366203665733337	Valid_PPYoloELoss/loss: 2.564877986907959	Valid_Precision@0.50: 0.03519678860902786	Valid_Recall@0.50: 0.7106918096542358	Valid_mAP@0.50: 0.2720864415168762	Valid_F1@0.50: 0.06689482927322388	
+
+Epoch 41 (42/100)  - Test_Inference_Time: 0.0	
+
+Epoch 41 (42/100)  - LR: 0.0007150058509974341	
+
+Epoch 42 (43/100)  - Train_Inference_Time: 20265.185546875	Train_PPYoloELoss/loss_cls: 1.163550615310669	Train_PPYoloELoss/loss_iou: 0.6352957487106323	Train_PPYoloELoss/loss_dfl: 0.7163680195808411	Train_PPYoloELoss/loss: 2.515214681625366	
+
+Epoch 42 (43/100)  - Valid_Inference_Time: 1726.69873046875	Valid_PPYoloELoss/loss_cls: 1.2431176900863647	Valid_PPYoloELoss/loss_iou: 0.5878641605377197	Valid_PPYoloELoss/loss_dfl: 0.7322881817817688	Valid_PPYoloELoss/loss: 2.563270092010498	Valid_Precision@0.50: 0.04060203582048416	Valid_Recall@0.50: 0.6884373426437378	Valid_mAP@0.50: 0.2819836139678955	Valid_F1@0.50: 0.07581180334091187	
+
+Epoch 42 (43/100)  - Test_Inference_Time: 0.0	
+
+Epoch 42 (43/100)  - LR: 0.0007013718617474825	
+
+Epoch 43 (44/100)  - Train_Inference_Time: 20296.912109375	Train_PPYoloELoss/loss_cls: 1.1625617742538452	Train_PPYoloELoss/loss_iou: 0.6466230154037476	Train_PPYoloELoss/loss_dfl: 0.73531574010849	Train_PPYoloELoss/loss: 2.5445005893707275	
+
+Epoch 43 (44/100)  - Valid_Inference_Time: 1744.8121337890625	Valid_PPYoloELoss/loss_cls: 1.220826268196106	Valid_PPYoloELoss/loss_iou: 0.5855486989021301	Valid_PPYoloELoss/loss_dfl: 0.7196989059448242	Valid_PPYoloELoss/loss: 2.526073932647705	Valid_Precision@0.50: 0.040654778480529785	Valid_Recall@0.50: 0.6918238997459412	Valid_mAP@0.50: 0.28128165006637573	Valid_F1@0.50: 0.0759880393743515	
+
+Epoch 43 (44/100)  - Test_Inference_Time: 0.0	
+
+Epoch 43 (44/100)  - LR: 0.0006875793223118889	
+
+Epoch 44 (45/100)  - Train_Inference_Time: 20770.484375	Train_PPYoloELoss/loss_cls: 1.1500461101531982	Train_PPYoloELoss/loss_iou: 0.6470293998718262	Train_PPYoloELoss/loss_dfl: 0.7247521877288818	Train_PPYoloELoss/loss: 2.521827459335327	
+
+Epoch 44 (45/100)  - Valid_Inference_Time: 1698.7222900390625	Valid_PPYoloELoss/loss_cls: 1.2454032897949219	Valid_PPYoloELoss/loss_iou: 0.5821277499198914	Valid_PPYoloELoss/loss_dfl: 0.724160373210907	Valid_PPYoloELoss/loss: 2.5516912937164307	Valid_Precision@0.50: 0.04017895460128784	Valid_Recall@0.50: 0.6884373426437378	Valid_mAP@0.50: 0.269577294588089	Valid_F1@0.50: 0.07516135275363922	
+
+Epoch 44 (45/100)  - Test_Inference_Time: 0.0	
+
+Epoch 44 (45/100)  - LR: 0.0006736426792969299	
+
+Epoch 45 (46/100)  - Train_Inference_Time: 21831.365234375	Train_PPYoloELoss/loss_cls: 1.1501822471618652	Train_PPYoloELoss/loss_iou: 0.6293303370475769	Train_PPYoloELoss/loss_dfl: 0.709364116191864	Train_PPYoloELoss/loss: 2.4888768196105957	
+
+Epoch 45 (46/100)  - Valid_Inference_Time: 1879.9906005859375	Valid_PPYoloELoss/loss_cls: 1.2397794723510742	Valid_PPYoloELoss/loss_iou: 0.5717148184776306	Valid_PPYoloELoss/loss_dfl: 0.7145741581916809	Valid_PPYoloELoss/loss: 2.5260684490203857	Valid_Precision@0.50: 0.04676935076713562	Valid_Recall@0.50: 0.6850508451461792	Valid_mAP@0.50: 0.28101468086242676	Valid_F1@0.50: 0.08630401641130447	
+
+Epoch 45 (46/100)  - Test_Inference_Time: 0.0	
+
+Epoch 45 (46/100)  - LR: 0.0006595765302461099	
+
+Epoch 46 (47/100)  - Train_Inference_Time: 19355.248046875	Train_PPYoloELoss/loss_cls: 1.1637226343154907	Train_PPYoloELoss/loss_iou: 0.6315028667449951	Train_PPYoloELoss/loss_dfl: 0.7145915031433105	Train_PPYoloELoss/loss: 2.509817123413086	
+
+Epoch 46 (47/100)  - Valid_Inference_Time: 1701.52490234375	Valid_PPYoloELoss/loss_cls: 1.223647952079773	Valid_PPYoloELoss/loss_iou: 0.5642038583755493	Valid_PPYoloELoss/loss_dfl: 0.711291491985321	Valid_PPYoloELoss/loss: 2.499143123626709	Valid_Precision@0.50: 0.03667217120528221	Valid_Recall@0.50: 0.6695694327354431	Valid_mAP@0.50: 0.2708539068698883	Valid_F1@0.50: 0.06906314194202423	
+
+Epoch 46 (47/100)  - Test_Inference_Time: 0.0	
+
+Epoch 46 (47/100)  - LR: 0.0006453956083503772	
+
+Epoch 47 (48/100)  - Train_Inference_Time: 22258.71484375	Train_PPYoloELoss/loss_cls: 1.1719484329223633	Train_PPYoloELoss/loss_iou: 0.6427466869354248	Train_PPYoloELoss/loss_dfl: 0.7267249226570129	Train_PPYoloELoss/loss: 2.5414202213287354	
+
+Epoch 47 (48/100)  - Valid_Inference_Time: 2771.067626953125	Valid_PPYoloELoss/loss_cls: 1.2833309173583984	Valid_PPYoloELoss/loss_iou: 0.6178613305091858	Valid_PPYoloELoss/loss_dfl: 0.7498571276664734	Valid_PPYoloELoss/loss: 2.6510496139526367	Valid_Precision@0.50: 0.029510609805583954	Valid_Recall@0.50: 0.5865989923477173	Valid_mAP@0.50: 0.21287968754768372	Valid_F1@0.50: 0.055717095732688904	
+
+Epoch 47 (48/100)  - Test_Inference_Time: 0.0	
+
+Epoch 47 (48/100)  - LR: 0.0006311147670162577	
+
+Epoch 48 (49/100)  - Train_Inference_Time: 25426.490234375	Train_PPYoloELoss/loss_cls: 1.1721837520599365	Train_PPYoloELoss/loss_iou: 0.6364110112190247	Train_PPYoloELoss/loss_dfl: 0.7266095280647278	Train_PPYoloELoss/loss: 2.5352046489715576	
+
+Epoch 48 (49/100)  - Valid_Inference_Time: 1649.9080810546875	Valid_PPYoloELoss/loss_cls: 1.238581657409668	Valid_PPYoloELoss/loss_iou: 0.5820481181144714	Valid_PPYoloELoss/loss_dfl: 0.7302064895629883	Valid_PPYoloELoss/loss: 2.5508363246917725	Valid_Precision@0.50: 0.037026744335889816	Valid_Recall@0.50: 0.6627963781356812	Valid_mAP@0.50: 0.2558986246585846	Valid_F1@0.50: 0.06949189305305481	
+
+Epoch 48 (49/100)  - Test_Inference_Time: 0.0	
+
+Epoch 48 (49/100)  - LR: 0.0006167489643080739	
+
+Epoch 49 (50/100)  - Train_Inference_Time: 20597.32421875	Train_PPYoloELoss/loss_cls: 1.1713917255401611	Train_PPYoloELoss/loss_iou: 0.6204407215118408	Train_PPYoloELoss/loss_dfl: 0.7138929963111877	Train_PPYoloELoss/loss: 2.505725145339966	
+
+Epoch 49 (50/100)  - Valid_Inference_Time: 1667.654296875	Valid_PPYoloELoss/loss_cls: 1.2426393032073975	Valid_PPYoloELoss/loss_iou: 0.5458568930625916	Valid_PPYoloELoss/loss_dfl: 0.7026939392089844	Valid_PPYoloELoss/loss: 2.491190195083618	Valid_Precision@0.50: 0.04033210873603821	Valid_Recall@0.50: 0.6756168603897095	Valid_mAP@0.50: 0.2859654724597931	Valid_F1@0.50: 0.07547954469919205	
+
+Epoch 49 (50/100)  - Test_Inference_Time: 0.0	
+
+Epoch 49 (50/100)  - LR: 0.0006023132472805426	
+
+Epoch 50 (51/100)  - Train_Inference_Time: 21221.8515625	Train_PPYoloELoss/loss_cls: 1.1669713258743286	Train_PPYoloELoss/loss_iou: 0.6199595928192139	Train_PPYoloELoss/loss_dfl: 0.7153443098068237	Train_PPYoloELoss/loss: 2.502275228500366	
+
+Epoch 50 (51/100)  - Valid_Inference_Time: 1652.052978515625	Valid_PPYoloELoss/loss_cls: 1.2139619588851929	Valid_PPYoloELoss/loss_iou: 0.5577182173728943	Valid_PPYoloELoss/loss_dfl: 0.7090054154396057	Valid_PPYoloELoss/loss: 2.4806854724884033	Valid_Precision@0.50: 0.043625734746456146	Valid_Recall@0.50: 0.6661828756332397	Valid_mAP@0.50: 0.28936171531677246	Valid_F1@0.50: 0.08075009286403656	
+
+Epoch 50 (51/100)  - Test_Inference_Time: 0.0	
+
+Epoch 50 (51/100)  - LR: 0.0005878227362181615	
+
+Epoch 51 (52/100)  - Train_Inference_Time: 20852.76953125	Train_PPYoloELoss/loss_cls: 1.1714379787445068	Train_PPYoloELoss/loss_iou: 0.6144973039627075	Train_PPYoloELoss/loss_dfl: 0.7138679623603821	Train_PPYoloELoss/loss: 2.499803304672241	
+
+Epoch 51 (52/100)  - Valid_Inference_Time: 2631.16259765625	Valid_PPYoloELoss/loss_cls: 1.2362884283065796	Valid_PPYoloELoss/loss_iou: 0.5424036383628845	Valid_PPYoloELoss/loss_dfl: 0.6984347701072693	Valid_PPYoloELoss/loss: 2.4771268367767334	Valid_Precision@0.50: 0.042025551199913025	Valid_Recall@0.50: 0.6918238997459412	Valid_mAP@0.50: 0.28906145691871643	Valid_F1@0.50: 0.07848150283098221	
+
+Epoch 51 (52/100)  - Test_Inference_Time: 0.0	
+
+Epoch 51 (52/100)  - LR: 0.0005732926087978944	
+
+Epoch 52 (53/100)  - Train_Inference_Time: 21187.701171875	Train_PPYoloELoss/loss_cls: 1.1619125604629517	Train_PPYoloELoss/loss_iou: 0.6060407161712646	Train_PPYoloELoss/loss_dfl: 0.7095482349395752	Train_PPYoloELoss/loss: 2.477501630783081	
+
+Epoch 52 (53/100)  - Valid_Inference_Time: 2038.8092041015625	Valid_PPYoloELoss/loss_cls: 1.2398985624313354	Valid_PPYoloELoss/loss_iou: 0.5340282917022705	Valid_PPYoloELoss/loss_dfl: 0.6925721764564514	Valid_PPYoloELoss/loss: 2.466499090194702	Valid_Precision@0.50: 0.0435754656791687	Valid_Recall@0.50: 0.7012578845024109	Valid_mAP@0.50: 0.300049364566803	Valid_F1@0.50: 0.08135316520929337	
+
+Epoch 52 (53/100)  - Test_Inference_Time: 0.0	
+
+Epoch 52 (53/100)  - LR: 0.000558738084191741	
+
+Epoch 53 (54/100)  - Train_Inference_Time: 23403.626953125	Train_PPYoloELoss/loss_cls: 1.1593092679977417	Train_PPYoloELoss/loss_iou: 0.6104587316513062	Train_PPYoloELoss/loss_dfl: 0.7067683935165405	Train_PPYoloELoss/loss: 2.476536273956299	
+
+Epoch 53 (54/100)  - Valid_Inference_Time: 1727.7774658203125	Valid_PPYoloELoss/loss_cls: 1.2207220792770386	Valid_PPYoloELoss/loss_iou: 0.553581178188324	Valid_PPYoloELoss/loss_dfl: 0.708482563495636	Valid_PPYoloELoss/loss: 2.482785940170288	Valid_Precision@0.50: 0.0423622690141201	Valid_Recall@0.50: 0.6823899745941162	Valid_mAP@0.50: 0.3055160343647003	Valid_F1@0.50: 0.07907280325889587	
+
+Epoch 53 (54/100)  - Test_Inference_Time: 0.0	
+
+Epoch 53 (54/100)  - LR: 0.0005441744071258453	
+
+Epoch 54 (55/100)  - Train_Inference_Time: 21425.03515625	Train_PPYoloELoss/loss_cls: 1.1582751274108887	Train_PPYoloELoss/loss_iou: 0.6186342835426331	Train_PPYoloELoss/loss_dfl: 0.707243800163269	Train_PPYoloELoss/loss: 2.4841532707214355	
+
+Epoch 54 (55/100)  - Valid_Inference_Time: 1800.7373046875	Valid_PPYoloELoss/loss_cls: 1.2083500623703003	Valid_PPYoloELoss/loss_iou: 0.5573751330375671	Valid_PPYoloELoss/loss_dfl: 0.70977783203125	Valid_PPYoloELoss/loss: 2.4755029678344727	Valid_Precision@0.50: 0.040546584874391556	Valid_Recall@0.50: 0.6756168603897095	Valid_mAP@0.50: 0.30551278591156006	Valid_F1@0.50: 0.07594729959964752	
+
+Epoch 54 (55/100)  - Test_Inference_Time: 0.0	
+
+Epoch 54 (55/100)  - LR: 0.0005296168319128371	
+
+Epoch 55 (56/100)  - Train_Inference_Time: 21352.609375	Train_PPYoloELoss/loss_cls: 1.156447410583496	Train_PPYoloELoss/loss_iou: 0.6354591250419617	Train_PPYoloELoss/loss_dfl: 0.7104172706604004	Train_PPYoloELoss/loss: 2.502323865890503	
+
+Epoch 55 (56/100)  - Valid_Inference_Time: 2317.474365234375	Valid_PPYoloELoss/loss_cls: 1.2429250478744507	Valid_PPYoloELoss/loss_iou: 0.5443461537361145	Valid_PPYoloELoss/loss_dfl: 0.7044932842254639	Valid_PPYoloELoss/loss: 2.4917643070220947	Valid_Precision@0.50: 0.03793063759803772	Valid_Recall@0.50: 0.6473149657249451	Valid_mAP@0.50: 0.28483232855796814	Valid_F1@0.50: 0.07125960290431976	
+
+Epoch 55 (56/100)  - Test_Inference_Time: 0.0	
+
+Epoch 55 (56/100)  - LR: 0.0005150806064741322	
+
+Epoch 56 (57/100)  - Train_Inference_Time: 20903.150390625	Train_PPYoloELoss/loss_cls: 1.153145432472229	Train_PPYoloELoss/loss_iou: 0.6053195595741272	Train_PPYoloELoss/loss_dfl: 0.710893988609314	Train_PPYoloELoss/loss: 2.4693589210510254	
+
+Epoch 56 (57/100)  - Valid_Inference_Time: 1802.0760498046875	Valid_PPYoloELoss/loss_cls: 1.2374558448791504	Valid_PPYoloELoss/loss_iou: 0.5597087740898132	Valid_PPYoloELoss/loss_dfl: 0.7159664630889893	Valid_PPYoloELoss/loss: 2.5131309032440186	Valid_Precision@0.50: 0.050360821187496185	Valid_Recall@0.50: 0.6473149657249451	Valid_mAP@0.50: 0.26360899209976196	Valid_F1@0.50: 0.09215448796749115	
+
+Epoch 56 (57/100)  - Test_Inference_Time: 0.0	
+
+Epoch 56 (57/100)  - LR: 0.000500580956368928	
+
+Epoch 57 (58/100)  - Train_Inference_Time: 21712.828125	Train_PPYoloELoss/loss_cls: 1.1507056951522827	Train_PPYoloELoss/loss_iou: 0.6008396744728088	Train_PPYoloELoss/loss_dfl: 0.6906439065933228	Train_PPYoloELoss/loss: 2.4421889781951904	
+
+Epoch 57 (58/100)  - Valid_Inference_Time: 1774.656005859375	Valid_PPYoloELoss/loss_cls: 1.2385400533676147	Valid_PPYoloELoss/loss_iou: 0.5743845105171204	Valid_PPYoloELoss/loss_dfl: 0.7113936543464661	Valid_PPYoloELoss/loss: 2.524318218231201	Valid_Precision@0.50: 0.032260455191135406	Valid_Recall@0.50: 0.6661828756332397	Valid_mAP@0.50: 0.2675684094429016	Valid_F1@0.50: 0.061168134212493896	
+
+Epoch 57 (58/100)  - Test_Inference_Time: 0.0	
+
+Epoch 57 (58/100)  - LR: 0.0004861330688466206	
+
+Epoch 58 (59/100)  - Train_Inference_Time: 21677.126953125	Train_PPYoloELoss/loss_cls: 1.1437541246414185	Train_PPYoloELoss/loss_iou: 0.6024413704872131	Train_PPYoloELoss/loss_dfl: 0.6894031763076782	Train_PPYoloELoss/loss: 2.435598850250244	
+
+Epoch 58 (59/100)  - Valid_Inference_Time: 2251.94921875	Valid_PPYoloELoss/loss_cls: 1.246159553527832	Valid_PPYoloELoss/loss_iou: 0.5824792981147766	Valid_PPYoloELoss/loss_dfl: 0.7236502766609192	Valid_PPYoloELoss/loss: 2.5522890090942383	Valid_Precision@0.50: 0.03812761604785919	Valid_Recall@0.50: 0.7046444416046143	Valid_mAP@0.50: 0.27493053674697876	Valid_F1@0.50: 0.07191281765699387	
+
+Epoch 58 (59/100)  - Test_Inference_Time: 0.0	
+
+Epoch 58 (59/100)  - LR: 0.0004717520769393492	
+
+Epoch 59 (60/100)  - Train_Inference_Time: 19430.072265625	Train_PPYoloELoss/loss_cls: 1.15757155418396	Train_PPYoloELoss/loss_iou: 0.5913716554641724	Train_PPYoloELoss/loss_dfl: 0.7015207409858704	Train_PPYoloELoss/loss: 2.4504637718200684	
+
+Epoch 59 (60/100)  - Valid_Inference_Time: 1828.3717041015625	Valid_PPYoloELoss/loss_cls: 1.2114306688308716	Valid_PPYoloELoss/loss_iou: 0.552180290222168	Valid_PPYoloELoss/loss_dfl: 0.6989510655403137	Valid_PPYoloELoss/loss: 2.462562084197998	Valid_Precision@0.50: 0.03973090648651123	Valid_Recall@0.50: 0.6918238997459412	Valid_mAP@0.50: 0.28249746561050415	Valid_F1@0.50: 0.07478801906108856	
+
+Epoch 59 (60/100)  - Test_Inference_Time: 0.0	
+
+Epoch 59 (60/100)  - LR: 0.0004574530436113286	
+
+Epoch 60 (61/100)  - Train_Inference_Time: 20260.021484375	Train_PPYoloELoss/loss_cls: 1.1386069059371948	Train_PPYoloELoss/loss_iou: 0.5988801121711731	Train_PPYoloELoss/loss_dfl: 0.6909213066101074	Train_PPYoloELoss/loss: 2.428408145904541	
+
+Epoch 60 (61/100)  - Valid_Inference_Time: 1724.5504150390625	Valid_PPYoloELoss/loss_cls: 1.2082114219665527	Valid_PPYoloELoss/loss_iou: 0.5376982688903809	Valid_PPYoloELoss/loss_dfl: 0.6928851008415222	Valid_PPYoloELoss/loss: 2.4387948513031006	Valid_Precision@0.50: 0.04303235560655594	Valid_Recall@0.50: 0.7012578845024109	Valid_mAP@0.50: 0.30461549758911133	Valid_F1@0.50: 0.08044549822807312	
+
+Epoch 60 (61/100)  - Test_Inference_Time: 0.0	
+
+Epoch 60 (61/100)  - LR: 0.00044325094598157195	
+
+Epoch 61 (62/100)  - Train_Inference_Time: 22270.98046875	Train_PPYoloELoss/loss_cls: 1.1434575319290161	Train_PPYoloELoss/loss_iou: 0.5983625650405884	Train_PPYoloELoss/loss_dfl: 0.6898043751716614	Train_PPYoloELoss/loss: 2.431624412536621	
+
+Epoch 61 (62/100)  - Valid_Inference_Time: 1766.4569091796875	Valid_PPYoloELoss/loss_cls: 1.1815475225448608	Valid_PPYoloELoss/loss_iou: 0.5443643927574158	Valid_PPYoloELoss/loss_dfl: 0.6968507766723633	Valid_PPYoloELoss/loss: 2.422762632369995	Valid_Precision@0.50: 0.04250114783644676	Valid_Recall@0.50: 0.6918238997459412	Valid_mAP@0.50: 0.32585006952285767	Valid_F1@0.50: 0.07955013960599899	
+
+Epoch 61 (62/100)  - Test_Inference_Time: 0.0	
+
+Epoch 61 (62/100)  - LR: 0.00042916065963653045	
+
+Epoch 62 (63/100)  - Train_Inference_Time: 23243.203125	Train_PPYoloELoss/loss_cls: 1.135432481765747	Train_PPYoloELoss/loss_iou: 0.5909903645515442	Train_PPYoloELoss/loss_dfl: 0.684840202331543	Train_PPYoloELoss/loss: 2.4112632274627686	
+
+Epoch 62 (63/100)  - Valid_Inference_Time: 3227.01318359375	Valid_PPYoloELoss/loss_cls: 1.193166732788086	Valid_PPYoloELoss/loss_iou: 0.5471585988998413	Valid_PPYoloELoss/loss_dfl: 0.6913229823112488	Valid_PPYoloELoss/loss: 2.4316482543945312	Valid_Precision@0.50: 0.04483485966920853	Valid_Recall@0.50: 0.6978713274002075	Valid_mAP@0.50: 0.3232232630252838	Valid_F1@0.50: 0.0834164172410965	
+
+Epoch 62 (63/100)  - Test_Inference_Time: 0.0	
+
+Epoch 62 (63/100)  - LR: 0.00041519694304908	
+
+Epoch 63 (64/100)  - Train_Inference_Time: 20023.6328125	Train_PPYoloELoss/loss_cls: 1.1458420753479004	Train_PPYoloELoss/loss_iou: 0.5793210864067078	Train_PPYoloELoss/loss_dfl: 0.6847827434539795	Train_PPYoloELoss/loss: 2.4099457263946533	
+
+Epoch 63 (64/100)  - Valid_Inference_Time: 2409.205078125	Valid_PPYoloELoss/loss_cls: 1.1791069507598877	Valid_PPYoloELoss/loss_iou: 0.5357455015182495	Valid_PPYoloELoss/loss_dfl: 0.6828460097312927	Valid_PPYoloELoss/loss: 2.397698402404785	Valid_Precision@0.50: 0.039473600685596466	Valid_Recall@0.50: 0.6790033578872681	Valid_mAP@0.50: 0.3261048197746277	Valid_F1@0.50: 0.07429831475019455	
+
+Epoch 63 (64/100)  - Test_Inference_Time: 0.0	
+
+Epoch 63 (64/100)  - LR: 0.00040137442212017494	
+
+Epoch 64 (65/100)  - Train_Inference_Time: 22015.76953125	Train_PPYoloELoss/loss_cls: 1.131883978843689	Train_PPYoloELoss/loss_iou: 0.5832427144050598	Train_PPYoloELoss/loss_dfl: 0.6786304116249084	Train_PPYoloELoss/loss: 2.3937573432922363	
+
+Epoch 64 (65/100)  - Valid_Inference_Time: 1790.973388671875	Valid_PPYoloELoss/loss_cls: 1.2110382318496704	Valid_PPYoloELoss/loss_iou: 0.5707774758338928	Valid_PPYoloELoss/loss_dfl: 0.6985942721366882	Valid_PPYoloELoss/loss: 2.480409860610962	Valid_Precision@0.50: 0.036492832005023956	Valid_Recall@0.50: 0.6790033578872681	Valid_mAP@0.50: 0.2938350439071655	Valid_F1@0.50: 0.06866934895515442	
+
+Epoch 64 (65/100)  - Test_Inference_Time: 0.0	
+
+Epoch 64 (65/100)  - LR: 0.00038770757485936046	
+
+Epoch 65 (66/100)  - Train_Inference_Time: 25213.5625	Train_PPYoloELoss/loss_cls: 1.1271871328353882	Train_PPYoloELoss/loss_iou: 0.5766957998275757	Train_PPYoloELoss/loss_dfl: 0.6814255118370056	Train_PPYoloELoss/loss: 2.3853085041046143	
+
+Epoch 65 (66/100)  - Valid_Inference_Time: 1877.3426513671875	Valid_PPYoloELoss/loss_cls: 1.195121169090271	Valid_PPYoloELoss/loss_iou: 0.5597801208496094	Valid_PPYoloELoss/loss_dfl: 0.7030382752418518	Valid_PPYoloELoss/loss: 2.457939624786377	Valid_Precision@0.50: 0.04029669612646103	Valid_Recall@0.50: 0.6695694327354431	Valid_mAP@0.50: 0.30889466404914856	Valid_F1@0.50: 0.07541327178478241	
+
+Epoch 65 (66/100)  - Test_Inference_Time: 0.0	
+
+Epoch 65 (66/100)  - LR: 0.0003742107162201915	
+
+Epoch 66 (67/100)  - Train_Inference_Time: 22748.56640625	Train_PPYoloELoss/loss_cls: 1.1333556175231934	Train_PPYoloELoss/loss_iou: 0.5693536996841431	Train_PPYoloELoss/loss_dfl: 0.6789795756340027	Train_PPYoloELoss/loss: 2.3816888332366943	
+
+Epoch 66 (67/100)  - Valid_Inference_Time: 1652.9923095703125	Valid_PPYoloELoss/loss_cls: 1.164678692817688	Valid_PPYoloELoss/loss_iou: 0.5527006983757019	Valid_PPYoloELoss/loss_dfl: 0.7026157379150391	Valid_PPYoloELoss/loss: 2.419995069503784	Valid_Precision@0.50: 0.040060240775346756	Valid_Recall@0.50: 0.6850508451461792	Valid_mAP@0.50: 0.3395504653453827	Valid_F1@0.50: 0.07520729303359985	
+
+Epoch 66 (67/100)  - Test_Inference_Time: 0.0	
+
+Epoch 66 (67/100)  - LR: 0.0003608979831064364	
+
+Epoch 67 (68/100)  - Train_Inference_Time: 22488.884765625	Train_PPYoloELoss/loss_cls: 1.1206059455871582	Train_PPYoloELoss/loss_iou: 0.5881229043006897	Train_PPYoloELoss/loss_dfl: 0.6835271120071411	Train_PPYoloELoss/loss: 2.392256021499634	
+
+Epoch 67 (68/100)  - Valid_Inference_Time: 1725.245361328125	Valid_PPYoloELoss/loss_cls: 1.1848958730697632	Valid_PPYoloELoss/loss_iou: 0.5698761343955994	Valid_PPYoloELoss/loss_dfl: 0.7192130088806152	Valid_PPYoloELoss/loss: 2.473984956741333	Valid_Precision@0.50: 0.038448624312877655	Valid_Recall@0.50: 0.6884373426437378	Valid_mAP@0.50: 0.32166844606399536	Valid_F1@0.50: 0.07222472131252289	
+
+Epoch 67 (68/100)  - Test_Inference_Time: 0.0	
+
+Epoch 67 (68/100)  - LR: 0.00034778331956477736	
+
+Epoch 68 (69/100)  - Train_Inference_Time: 21443.494140625	Train_PPYoloELoss/loss_cls: 1.1478838920593262	Train_PPYoloELoss/loss_iou: 0.5752990245819092	Train_PPYoloELoss/loss_dfl: 0.6889314651489258	Train_PPYoloELoss/loss: 2.412114381790161	
+
+Epoch 68 (69/100)  - Valid_Inference_Time: 1671.35693359375	Valid_PPYoloELoss/loss_cls: 1.1990958452224731	Valid_PPYoloELoss/loss_iou: 0.5698733925819397	Valid_PPYoloELoss/loss_dfl: 0.719393253326416	Valid_PPYoloELoss/loss: 2.4883625507354736	Valid_Precision@0.50: 0.04749394208192825	Valid_Recall@0.50: 0.6884373426437378	Valid_mAP@0.50: 0.3166236877441406	Valid_F1@0.50: 0.08815257251262665	
+
+Epoch 68 (69/100)  - Test_Inference_Time: 0.0	
+
+Epoch 68 (69/100)  - LR: 0.0003348804621795122	
+
+Epoch 69 (70/100)  - Train_Inference_Time: 22406.84375	Train_PPYoloELoss/loss_cls: 1.1414936780929565	Train_PPYoloELoss/loss_iou: 0.5894411206245422	Train_PPYoloELoss/loss_dfl: 0.69167560338974	Train_PPYoloELoss/loss: 2.4226105213165283	
+
+Epoch 69 (70/100)  - Valid_Inference_Time: 2598.2919921875	Valid_PPYoloELoss/loss_cls: 1.1822857856750488	Valid_PPYoloELoss/loss_iou: 0.5732713341712952	Valid_PPYoloELoss/loss_dfl: 0.720766007900238	Valid_PPYoloELoss/loss: 2.476323127746582	Valid_Precision@0.50: 0.05065320059657097	Valid_Recall@0.50: 0.6823899745941162	Valid_mAP@0.50: 0.3091268539428711	Valid_F1@0.50: 0.09350575506687164	
+
+Epoch 69 (70/100)  - Test_Inference_Time: 0.0	
+
+Epoch 69 (70/100)  - LR: 0.0003222029256845559	
+
+Epoch 70 (71/100)  - Train_Inference_Time: 24875.1015625	Train_PPYoloELoss/loss_cls: 1.1436399221420288	Train_PPYoloELoss/loss_iou: 0.5949746370315552	Train_PPYoloELoss/loss_dfl: 0.6900926232337952	Train_PPYoloELoss/loss: 2.4287073612213135	
+
+Epoch 70 (71/100)  - Valid_Inference_Time: 1869.8253173828125	Valid_PPYoloELoss/loss_cls: 1.175750970840454	Valid_PPYoloELoss/loss_iou: 0.5677645802497864	Valid_PPYoloELoss/loss_dfl: 0.7190173268318176	Valid_PPYoloELoss/loss: 2.4625329971313477	Valid_Precision@0.50: 0.042472243309020996	Valid_Recall@0.50: 0.7106918096542358	Valid_mAP@0.50: 0.3020792603492737	Valid_F1@0.50: 0.07971248775720596	
+
+Epoch 70 (71/100)  - Test_Inference_Time: 0.0	
+
+Epoch 70 (71/100)  - LR: 0.000309763988807814	
+
+Epoch 71 (72/100)  - Train_Inference_Time: 24358.62109375	Train_PPYoloELoss/loss_cls: 1.1358023881912231	Train_PPYoloELoss/loss_iou: 0.5666584372520447	Train_PPYoloELoss/loss_dfl: 0.6736521124839783	Train_PPYoloELoss/loss: 2.376112699508667	
+
+Epoch 71 (72/100)  - Valid_Inference_Time: 2347.5029296875	Valid_PPYoloELoss/loss_cls: 1.1916612386703491	Valid_PPYoloELoss/loss_iou: 0.5356789231300354	Valid_PPYoloELoss/loss_dfl: 0.6941229701042175	Valid_PPYoloELoss/loss: 2.4214630126953125	Valid_Precision@0.50: 0.044634271413087845	Valid_Recall@0.50: 0.6978713274002075	Valid_mAP@0.50: 0.326648086309433	Valid_F1@0.50: 0.08301855623722076	
+
+Epoch 71 (72/100)  - Test_Inference_Time: 0.0	
+
+Epoch 71 (72/100)  - LR: 0.0002975766803627548	
+
+Epoch 72 (73/100)  - Train_Inference_Time: 20008.365234375	Train_PPYoloELoss/loss_cls: 1.1308151483535767	Train_PPYoloELoss/loss_iou: 0.5728021264076233	Train_PPYoloELoss/loss_dfl: 0.6741190552711487	Train_PPYoloELoss/loss: 2.3777360916137695	
+
+Epoch 72 (73/100)  - Valid_Inference_Time: 1668.8980712890625	Valid_PPYoloELoss/loss_cls: 1.1728577613830566	Valid_PPYoloELoss/loss_iou: 0.5373900532722473	Valid_PPYoloELoss/loss_dfl: 0.6958666443824768	Valid_PPYoloELoss/loss: 2.406114339828491	Valid_Precision@0.50: 0.04689949378371239	Valid_Recall@0.50: 0.6884373426437378	Valid_mAP@0.50: 0.31392115354537964	Valid_F1@0.50: 0.08686665445566177	
+
+Epoch 72 (73/100)  - Test_Inference_Time: 0.0	
+
+Epoch 72 (73/100)  - LR: 0.00028565376560174495	
+
+Epoch 73 (74/100)  - Train_Inference_Time: 21573.697265625	Train_PPYoloELoss/loss_cls: 1.1037148237228394	Train_PPYoloELoss/loss_iou: 0.5679120421409607	Train_PPYoloELoss/loss_dfl: 0.6684468388557434	Train_PPYoloELoss/loss: 2.340073347091675	
+
+Epoch 73 (74/100)  - Valid_Inference_Time: 2621.62353515625	Valid_PPYoloELoss/loss_cls: 1.1717790365219116	Valid_PPYoloELoss/loss_iou: 0.5316621661186218	Valid_PPYoloELoss/loss_dfl: 0.6845465302467346	Valid_PPYoloELoss/loss: 2.3879878520965576	Valid_Precision@0.50: 0.04782534018158913	Valid_Recall@0.50: 0.7106918096542358	Valid_mAP@0.50: 0.3246411085128784	Valid_F1@0.50: 0.08853528648614883	
+
+Epoch 73 (74/100)  - Test_Inference_Time: 0.0	
+
+Epoch 73 (74/100)  - LR: 0.0002740077328454467	
+
+Epoch 74 (75/100)  - Train_Inference_Time: 20991.611328125	Train_PPYoloELoss/loss_cls: 1.1213467121124268	Train_PPYoloELoss/loss_iou: 0.567733883857727	Train_PPYoloELoss/loss_dfl: 0.6727872490882874	Train_PPYoloELoss/loss: 2.361867666244507	
+
+Epoch 74 (75/100)  - Valid_Inference_Time: 2387.208740234375	Valid_PPYoloELoss/loss_cls: 1.1520127058029175	Valid_PPYoloELoss/loss_iou: 0.5395660996437073	Valid_PPYoloELoss/loss_dfl: 0.693526029586792	Valid_PPYoloELoss/loss: 2.3851048946380615	Valid_Precision@0.50: 0.05431218072772026	Valid_Recall@0.50: 0.6884373426437378	Valid_mAP@0.50: 0.3359673023223877	Valid_F1@0.50: 0.09901468455791473	
+
+Epoch 74 (75/100)  - Test_Inference_Time: 0.0	
+
+Epoch 74 (75/100)  - LR: 0.00026265078040227884	
+
+Epoch 75 (76/100)  - Train_Inference_Time: 20578.8046875	Train_PPYoloELoss/loss_cls: 1.1081491708755493	Train_PPYoloELoss/loss_iou: 0.5824580192565918	Train_PPYoloELoss/loss_dfl: 0.6814470887184143	Train_PPYoloELoss/loss: 2.372053861618042	
+
+Epoch 75 (76/100)  - Valid_Inference_Time: 1745.378662109375	Valid_PPYoloELoss/loss_cls: 1.1523984670639038	Valid_PPYoloELoss/loss_iou: 0.5488350987434387	Valid_PPYoloELoss/loss_dfl: 0.6995253562927246	Valid_PPYoloELoss/loss: 2.400758981704712	Valid_Precision@0.50: 0.03615613281726837	Valid_Recall@0.50: 0.7012578845024109	Valid_mAP@0.50: 0.32641446590423584	Valid_F1@0.50: 0.06850223988294601	
+
+Epoch 75 (76/100)  - Test_Inference_Time: 0.0	
+
+Epoch 75 (76/100)  - LR: 0.0002515948037916423	
+
+Epoch 76 (77/100)  - Train_Inference_Time: 23150.751953125	Train_PPYoloELoss/loss_cls: 1.1178596019744873	Train_PPYoloELoss/loss_iou: 0.5755104422569275	Train_PPYoloELoss/loss_dfl: 0.6722007393836975	Train_PPYoloELoss/loss: 2.3655710220336914	
+
+Epoch 76 (77/100)  - Valid_Inference_Time: 1646.836669921875	Valid_PPYoloELoss/loss_cls: 1.16739821434021	Valid_PPYoloELoss/loss_iou: 0.5493877530097961	Valid_PPYoloELoss/loss_dfl: 0.7025227546691895	Valid_PPYoloELoss/loss: 2.419308662414551	Valid_Precision@0.50: 0.04073270782828331	Valid_Recall@0.50: 0.7329462766647339	Valid_mAP@0.50: 0.36265361309051514	Valid_F1@0.50: 0.0766773670911789	
+
+Epoch 76 (77/100)  - Test_Inference_Time: 0.0	
+
+Epoch 76 (77/100)  - LR: 0.00024085138328429427	
+
+Epoch 77 (78/100)  - Train_Inference_Time: 21238.05859375	Train_PPYoloELoss/loss_cls: 1.1060459613800049	Train_PPYoloELoss/loss_iou: 0.5728879570960999	Train_PPYoloELoss/loss_dfl: 0.671927273273468	Train_PPYoloELoss/loss: 2.3508613109588623	
+
+Epoch 77 (78/100)  - Valid_Inference_Time: 2719.123779296875	Valid_PPYoloELoss/loss_cls: 1.164597511291504	Valid_PPYoloELoss/loss_iou: 0.5422291159629822	Valid_PPYoloELoss/loss_dfl: 0.7029485106468201	Valid_PPYoloELoss/loss: 2.4097750186920166	Valid_Precision@0.50: 0.039433494210243225	Valid_Recall@0.50: 0.6978713274002075	Valid_mAP@0.50: 0.3296775817871094	Valid_F1@0.50: 0.07429506629705429	
+
+Epoch 77 (78/100)  - Test_Inference_Time: 0.0	
+
+Epoch 77 (78/100)  - LR: 0.00023043177177292065	
+
+Epoch 78 (79/100)  - Train_Inference_Time: 21456.544921875	Train_PPYoloELoss/loss_cls: 1.1146363019943237	Train_PPYoloELoss/loss_iou: 0.5707775950431824	Train_PPYoloELoss/loss_dfl: 0.6679409146308899	Train_PPYoloELoss/loss: 2.3533546924591064	
+
+Epoch 78 (79/100)  - Valid_Inference_Time: 1745.2467041015625	Valid_PPYoloELoss/loss_cls: 1.1664118766784668	Valid_PPYoloELoss/loss_iou: 0.5383086800575256	Valid_PPYoloELoss/loss_dfl: 0.6977794170379639	Valid_PPYoloELoss/loss: 2.4024999141693115	Valid_Precision@0.50: 0.03869668394327164	Valid_Recall@0.50: 0.736332893371582	Valid_mAP@0.50: 0.3438567817211151	Valid_F1@0.50: 0.07340052723884583	
+
+Epoch 78 (79/100)  - Test_Inference_Time: 0.0	
+
+Epoch 78 (79/100)  - LR: 0.00022034688298561047	
+
+Epoch 79 (80/100)  - Train_Inference_Time: 21864.3203125	Train_PPYoloELoss/loss_cls: 1.095205545425415	Train_PPYoloELoss/loss_iou: 0.568432629108429	Train_PPYoloELoss/loss_dfl: 0.6598849892616272	Train_PPYoloELoss/loss: 2.3235230445861816	
+
+Epoch 79 (80/100)  - Valid_Inference_Time: 1752.7779541015625	Valid_PPYoloELoss/loss_cls: 1.1643656492233276	Valid_PPYoloELoss/loss_iou: 0.5356415510177612	Valid_PPYoloELoss/loss_dfl: 0.6891888976097107	Valid_PPYoloELoss/loss: 2.3891959190368652	Valid_Precision@0.50: 0.0439179502427578	Valid_Recall@0.50: 0.714078426361084	Valid_mAP@0.50: 0.32559001445770264	Valid_F1@0.50: 0.08223750442266464	
+
+Epoch 79 (80/100)  - Test_Inference_Time: 0.0	
+
+Epoch 79 (80/100)  - LR: 0.00021060728005457927	
+
+Epoch 80 (81/100)  - Train_Inference_Time: 21330.75	Train_PPYoloELoss/loss_cls: 1.0947024822235107	Train_PPYoloELoss/loss_iou: 0.5609764456748962	Train_PPYoloELoss/loss_dfl: 0.665837824344635	Train_PPYoloELoss/loss: 2.321516752243042	
+
+Epoch 80 (81/100)  - Valid_Inference_Time: 2323.651123046875	Valid_PPYoloELoss/loss_cls: 1.1611065864562988	Valid_PPYoloELoss/loss_iou: 0.5327396988868713	Valid_PPYoloELoss/loss_dfl: 0.6891994476318359	Valid_PPYoloELoss/loss: 2.3830456733703613	Valid_Precision@0.50: 0.04062287136912346	Valid_Recall@0.50: 0.7268989086151123	Valid_mAP@0.50: 0.33566293120384216	Valid_F1@0.50: 0.07663959264755249	
+
+Epoch 80 (81/100)  - Test_Inference_Time: 0.0	
+
+Epoch 80 (81/100)  - LR: 0.00020122316445211539	
+
+Epoch 81 (82/100)  - Train_Inference_Time: 21285.603515625	Train_PPYoloELoss/loss_cls: 1.0885283946990967	Train_PPYoloELoss/loss_iou: 0.5517204999923706	Train_PPYoloELoss/loss_dfl: 0.6449721455574036	Train_PPYoloELoss/loss: 2.2852208614349365	
+
+Epoch 81 (82/100)  - Valid_Inference_Time: 1961.749267578125	Valid_PPYoloELoss/loss_cls: 1.19228196144104	Valid_PPYoloELoss/loss_iou: 0.5394876599311829	Valid_PPYoloELoss/loss_dfl: 0.6913774609565735	Valid_PPYoloELoss/loss: 2.423146963119507	Valid_Precision@0.50: 0.037368230521678925	Valid_Recall@0.50: 0.7012578845024109	Valid_mAP@0.50: 0.32782235741615295	Valid_F1@0.50: 0.07068745791912079	
+
+Epoch 81 (82/100)  - Test_Inference_Time: 0.0	
+
+Epoch 81 (82/100)  - LR: 0.00019220436530533437	
+
+Epoch 82 (83/100)  - Train_Inference_Time: 23062.076171875	Train_PPYoloELoss/loss_cls: 1.0938905477523804	Train_PPYoloELoss/loss_iou: 0.5540685057640076	Train_PPYoloELoss/loss_dfl: 0.6625348329544067	Train_PPYoloELoss/loss: 2.3104939460754395	
+
+Epoch 82 (83/100)  - Valid_Inference_Time: 1726.972900390625	Valid_PPYoloELoss/loss_cls: 1.161209225654602	Valid_PPYoloELoss/loss_iou: 0.5334253907203674	Valid_PPYoloELoss/loss_dfl: 0.6867063641548157	Valid_PPYoloELoss/loss: 2.381340980529785	Valid_Precision@0.50: 0.03844623640179634	Valid_Recall@0.50: 0.7012578845024109	Valid_mAP@0.50: 0.3375322222709656	Valid_F1@0.50: 0.07254207879304886	
+
+Epoch 82 (83/100)  - Test_Inference_Time: 0.0	
+
+Epoch 82 (83/100)  - LR: 0.0001835603291009378	
+
+Epoch 83 (84/100)  - Train_Inference_Time: 21708.984375	Train_PPYoloELoss/loss_cls: 1.0889809131622314	Train_PPYoloELoss/loss_iou: 0.56729656457901	Train_PPYoloELoss/loss_dfl: 0.6668470501899719	Train_PPYoloELoss/loss: 2.323124885559082	
+
+Epoch 83 (84/100)  - Valid_Inference_Time: 1717.525634765625	Valid_PPYoloELoss/loss_cls: 1.15824556350708	Valid_PPYoloELoss/loss_iou: 0.5457069277763367	Valid_PPYoloELoss/loss_dfl: 0.6979084014892578	Valid_PPYoloELoss/loss: 2.4018609523773193	Valid_Precision@0.50: 0.03778965026140213	Valid_Recall@0.50: 0.7235123515129089	Valid_mAP@0.50: 0.3552634119987488	Valid_F1@0.50: 0.0715712159872055	
+
+Epoch 83 (84/100)  - Test_Inference_Time: 0.0	
+
+Epoch 83 (84/100)  - LR: 0.0001753001097907572	
+
+Epoch 84 (85/100)  - Train_Inference_Time: 23150.0390625	Train_PPYoloELoss/loss_cls: 1.108864426612854	Train_PPYoloELoss/loss_iou: 0.554496169090271	Train_PPYoloELoss/loss_dfl: 0.6662644147872925	Train_PPYoloELoss/loss: 2.329625129699707	
+
+Epoch 84 (85/100)  - Valid_Inference_Time: 1718.295654296875	Valid_PPYoloELoss/loss_cls: 1.1459336280822754	Valid_PPYoloELoss/loss_iou: 0.53303462266922	Valid_PPYoloELoss/loss_dfl: 0.6849701404571533	Valid_PPYoloELoss/loss: 2.363938331604004	Valid_Precision@0.50: 0.041635796427726746	Valid_Recall@0.50: 0.736332893371582	Valid_mAP@0.50: 0.3790147304534912	Valid_F1@0.50: 0.07847029715776443	
+
+Epoch 84 (85/100)  - Test_Inference_Time: 0.0	
+
+Epoch 84 (85/100)  - LR: 0.00016743235930844746	
+
+Epoch 85 (86/100)  - Train_Inference_Time: 21730.720703125	Train_PPYoloELoss/loss_cls: 1.0823633670806885	Train_PPYoloELoss/loss_iou: 0.5601369738578796	Train_PPYoloELoss/loss_dfl: 0.6513683795928955	Train_PPYoloELoss/loss: 2.2938685417175293	
+
+Epoch 85 (86/100)  - Valid_Inference_Time: 2772.756591796875	Valid_PPYoloELoss/loss_cls: 1.1626677513122559	Valid_PPYoloELoss/loss_iou: 0.5367009043693542	Valid_PPYoloELoss/loss_dfl: 0.6875303387641907	Valid_PPYoloELoss/loss: 2.386898994445801	Valid_Precision@0.50: 0.04184199869632721	Valid_Recall@0.50: 0.745766818523407	Valid_mAP@0.50: 0.3765280246734619	Valid_F1@0.50: 0.07867556810379028	
+
+Epoch 85 (86/100)  - Test_Inference_Time: 0.0	
+
+Epoch 85 (86/100)  - LR: 0.00015996531850726327	
+
+Epoch 86 (87/100)  - Train_Inference_Time: 20868.962890625	Train_PPYoloELoss/loss_cls: 1.0828869342803955	Train_PPYoloELoss/loss_iou: 0.5572094321250916	Train_PPYoloELoss/loss_dfl: 0.6550877094268799	Train_PPYoloELoss/loss: 2.2951838970184326	
+
+Epoch 86 (87/100)  - Valid_Inference_Time: 2506.736328125	Valid_PPYoloELoss/loss_cls: 1.1613517999649048	Valid_PPYoloELoss/loss_iou: 0.5467888712882996	Valid_PPYoloELoss/loss_dfl: 0.6985194087028503	Valid_PPYoloELoss/loss: 2.4066600799560547	Valid_Precision@0.50: 0.035810016095638275	Valid_Recall@0.50: 0.7585873603820801	Valid_mAP@0.50: 0.34298405051231384	Valid_F1@0.50: 0.06829962134361267	
+
+Epoch 86 (87/100)  - Test_Inference_Time: 0.0	
+
+Epoch 86 (87/100)  - LR: 0.00015290680852841	
+
+Epoch 87 (88/100)  - Train_Inference_Time: 19062.78515625	Train_PPYoloELoss/loss_cls: 1.072040319442749	Train_PPYoloELoss/loss_iou: 0.5508779287338257	Train_PPYoloELoss/loss_dfl: 0.6418738961219788	Train_PPYoloELoss/loss: 2.2647924423217773	
+
+Epoch 87 (88/100)  - Valid_Inference_Time: 1546.880126953125	Valid_PPYoloELoss/loss_cls: 1.1685961484909058	Valid_PPYoloELoss/loss_iou: 0.5439431667327881	Valid_PPYoloELoss/loss_dfl: 0.6983125805854797	Valid_PPYoloELoss/loss: 2.4108517169952393	Valid_Precision@0.50: 0.03449598327279091	Valid_Recall@0.50: 0.7585873603820801	Valid_mAP@0.50: 0.3480309545993805	Valid_F1@0.50: 0.06586344540119171	
+
+Epoch 87 (88/100)  - Test_Inference_Time: 0.0	
+
+Epoch 87 (88/100)  - LR: 0.0001462642226090096	
+
+Epoch 88 (89/100)  - Train_Inference_Time: 20756.826171875	Train_PPYoloELoss/loss_cls: 1.0777300596237183	Train_PPYoloELoss/loss_iou: 0.5485507845878601	Train_PPYoloELoss/loss_dfl: 0.6506041288375854	Train_PPYoloELoss/loss: 2.2768850326538086	
+
+Epoch 88 (89/100)  - Valid_Inference_Time: 1691.5853271484375	Valid_PPYoloELoss/loss_cls: 1.17672598361969	Valid_PPYoloELoss/loss_iou: 0.5263722538948059	Valid_PPYoloELoss/loss_dfl: 0.6826558709144592	Valid_PPYoloELoss/loss: 2.385753870010376	Valid_Precision@0.50: 0.03526628762483597	Valid_Recall@0.50: 0.745766818523407	Valid_mAP@0.50: 0.3486101031303406	Valid_F1@0.50: 0.06705422699451447	
+
+Epoch 88 (89/100)  - Test_Inference_Time: 0.0	
+
+Epoch 88 (89/100)  - LR: 0.00014004451833826337	
+
+Epoch 89 (90/100)  - Train_Inference_Time: 21967.294921875	Train_PPYoloELoss/loss_cls: 1.0693912506103516	Train_PPYoloELoss/loss_iou: 0.5505164861679077	Train_PPYoloELoss/loss_dfl: 0.6496674418449402	Train_PPYoloELoss/loss: 2.2695751190185547	
+
+Epoch 89 (90/100)  - Valid_Inference_Time: 2732.060791015625	Valid_PPYoloELoss/loss_cls: 1.1524063348770142	Valid_PPYoloELoss/loss_iou: 0.5437875390052795	Valid_PPYoloELoss/loss_dfl: 0.6906468868255615	Valid_PPYoloELoss/loss: 2.3868408203125	Valid_Precision@0.50: 0.03608742356300354	Valid_Recall@0.50: 0.7268989086151123	Valid_mAP@0.50: 0.35405081510543823	Valid_F1@0.50: 0.06855213642120361	
+
+Epoch 89 (90/100)  - Test_Inference_Time: 0.0	
+
+Epoch 89 (90/100)  - LR: 0.00013425421036992102	
+
+Epoch 90 (91/100)  - Train_Inference_Time: 21411.3515625	Train_PPYoloELoss/loss_cls: 1.074649453163147	Train_PPYoloELoss/loss_iou: 0.5456099510192871	Train_PPYoloELoss/loss_dfl: 0.6508967280387878	Train_PPYoloELoss/loss: 2.271156072616577	
+
+Epoch 90 (91/100)  - Valid_Inference_Time: 1897.9537353515625	Valid_PPYoloELoss/loss_cls: 1.144316554069519	Valid_PPYoloELoss/loss_iou: 0.547386109828949	Valid_PPYoloELoss/loss_dfl: 0.6974992156028748	Valid_PPYoloELoss/loss: 2.3892018795013428	Valid_Precision@0.50: 0.04000721871852875	Valid_Recall@0.50: 0.7012578845024109	Valid_mAP@0.50: 0.35762467980384827	Valid_F1@0.50: 0.07542145252227783	
+
+Epoch 90 (91/100)  - Test_Inference_Time: 0.0	
+
+Epoch 90 (91/100)  - LR: 0.00012889936359869103	
+
+Epoch 91 (92/100)  - Train_Inference_Time: 19569.0703125	Train_PPYoloELoss/loss_cls: 1.0580275058746338	Train_PPYoloELoss/loss_iou: 0.5575189590454102	Train_PPYoloELoss/loss_dfl: 0.6439050436019897	Train_PPYoloELoss/loss: 2.259451389312744	
+
+Epoch 91 (92/100)  - Valid_Inference_Time: 1605.005126953125	Valid_PPYoloELoss/loss_cls: 1.1511319875717163	Valid_PPYoloELoss/loss_iou: 0.5491840839385986	Valid_PPYoloELoss/loss_dfl: 0.7000923156738281	Valid_PPYoloELoss/loss: 2.4004085063934326	Valid_Precision@0.50: 0.038047295063734055	Valid_Recall@0.50: 0.7329462766647339	Valid_mAP@0.50: 0.3719194531440735	Valid_F1@0.50: 0.07217666506767273	
+
+Epoch 91 (92/100)  - Test_Inference_Time: 0.0	
+
+Epoch 91 (92/100)  - LR: 0.00012398558680773737	
+
+Epoch 92 (93/100)  - Train_Inference_Time: 21899.935546875	Train_PPYoloELoss/loss_cls: 1.0673731565475464	Train_PPYoloELoss/loss_iou: 0.5591341257095337	Train_PPYoloELoss/loss_dfl: 0.6488289833068848	Train_PPYoloELoss/loss: 2.275336503982544	
+
+Epoch 92 (93/100)  - Valid_Inference_Time: 1646.5166015625	Valid_PPYoloELoss/loss_cls: 1.142865777015686	Valid_PPYoloELoss/loss_iou: 0.5438018441200256	Valid_PPYoloELoss/loss_dfl: 0.7002105116844177	Valid_PPYoloELoss/loss: 2.386878252029419	Valid_Precision@0.50: 0.04382583126425743	Valid_Recall@0.50: 0.736332893371582	Valid_mAP@0.50: 0.37568598985671997	Valid_F1@0.50: 0.08235861361026764	
+
+Epoch 92 (93/100)  - Test_Inference_Time: 0.0	
+
+Epoch 92 (93/100)  - LR: 0.00011951802679391781	
+
+Epoch 93 (94/100)  - Train_Inference_Time: 23774.66796875	Train_PPYoloELoss/loss_cls: 1.0649192333221436	Train_PPYoloELoss/loss_iou: 0.5441898107528687	Train_PPYoloELoss/loss_dfl: 0.6365036964416504	Train_PPYoloELoss/loss: 2.245612859725952	
+
+Epoch 93 (94/100)  - Valid_Inference_Time: 2327.233154296875	Valid_PPYoloELoss/loss_cls: 1.1554365158081055	Valid_PPYoloELoss/loss_iou: 0.5402390956878662	Valid_PPYoloELoss/loss_dfl: 0.6977407336235046	Valid_PPYoloELoss/loss: 2.393416404724121	Valid_Precision@0.50: 0.04234429448843002	Valid_Recall@0.50: 0.7585873603820801	Valid_mAP@0.50: 0.3984856605529785	Valid_F1@0.50: 0.0798833817243576	
+
+Epoch 93 (94/100)  - Test_Inference_Time: 0.0	
+
+Epoch 93 (94/100)  - LR: 0.0001155013629769169	
+
+Epoch 94 (95/100)  - Train_Inference_Time: 20905.0703125	Train_PPYoloELoss/loss_cls: 1.0856189727783203	Train_PPYoloELoss/loss_iou: 0.5535858273506165	Train_PPYoloELoss/loss_dfl: 0.6499942541122437	Train_PPYoloELoss/loss: 2.289198875427246	
+
+Epoch 94 (95/100)  - Valid_Inference_Time: 1751.4405517578125	Valid_PPYoloELoss/loss_cls: 1.1464043855667114	Valid_PPYoloELoss/loss_iou: 0.535598635673523	Valid_PPYoloELoss/loss_dfl: 0.6881130337715149	Valid_PPYoloELoss/loss: 2.3701162338256836	Valid_Precision@0.50: 0.041694968938827515	Valid_Recall@0.50: 0.7268989086151123	Valid_mAP@0.50: 0.3737183213233948	Valid_F1@0.50: 0.0785904973745346	
+
+Epoch 94 (95/100)  - Test_Inference_Time: 0.0	
+
+Epoch 94 (95/100)  - LR: 0.0001119398024979201	
+
+Epoch 95 (96/100)  - Train_Inference_Time: 21721.439453125	Train_PPYoloELoss/loss_cls: 1.0708366632461548	Train_PPYoloELoss/loss_iou: 0.5269073843955994	Train_PPYoloELoss/loss_dfl: 0.6435441374778748	Train_PPYoloELoss/loss: 2.24128794670105	
+
+Epoch 95 (96/100)  - Valid_Inference_Time: 1718.280517578125	Valid_PPYoloELoss/loss_cls: 1.1454819440841675	Valid_PPYoloELoss/loss_iou: 0.5516825318336487	Valid_PPYoloELoss/loss_dfl: 0.6961901187896729	Valid_PPYoloELoss/loss: 2.393354654312134	Valid_Precision@0.50: 0.037581853568553925	Valid_Recall@0.50: 0.714078426361084	Valid_mAP@0.50: 0.3648720383644104	Valid_F1@0.50: 0.07108207046985626	
+
+Epoch 95 (96/100)  - Test_Inference_Time: 0.0	
+
+Epoch 95 (96/100)  - LR: 0.00010883707581296191	
+
+Epoch 96 (97/100)  - Train_Inference_Time: 23201.150390625	Train_PPYoloELoss/loss_cls: 1.052098035812378	Train_PPYoloELoss/loss_iou: 0.5364961624145508	Train_PPYoloELoss/loss_dfl: 0.6393546462059021	Train_PPYoloELoss/loss: 2.2279486656188965	
+
+Epoch 96 (97/100)  - Valid_Inference_Time: 1714.6485595703125	Valid_PPYoloELoss/loss_cls: 1.1463266611099243	Valid_PPYoloELoss/loss_iou: 0.5499436259269714	Valid_PPYoloELoss/loss_dfl: 0.6932166218757629	Valid_PPYoloELoss/loss: 2.3894870281219482	Valid_Precision@0.50: 0.03787613287568092	Valid_Recall@0.50: 0.714078426361084	Valid_mAP@0.50: 0.3611142635345459	Valid_F1@0.50: 0.07169709354639053	
+
+Epoch 96 (97/100)  - Test_Inference_Time: 0.0	
+
+Epoch 96 (97/100)  - LR: 0.00010619643278556521	
+
+Epoch 97 (98/100)  - Train_Inference_Time: 22106.83203125	Train_PPYoloELoss/loss_cls: 1.060685634613037	Train_PPYoloELoss/loss_iou: 0.5542587041854858	Train_PPYoloELoss/loss_dfl: 0.6400902271270752	Train_PPYoloELoss/loss: 2.2550344467163086	
+
+Epoch 97 (98/100)  - Valid_Inference_Time: 2626.169189453125	Valid_PPYoloELoss/loss_cls: 1.1533021926879883	Valid_PPYoloELoss/loss_iou: 0.5413139462471008	Valid_PPYoloELoss/loss_dfl: 0.6947011947631836	Valid_PPYoloELoss/loss: 2.389317274093628	Valid_Precision@0.50: 0.03861856833100319	Valid_Recall@0.50: 0.7329462766647339	Valid_mAP@0.50: 0.3575068712234497	Valid_F1@0.50: 0.07290658354759216	
+
+Epoch 97 (98/100)  - Test_Inference_Time: 0.0	
+
+Epoch 97 (98/100)  - LR: 0.00010402063928276359	
+
+Epoch 98 (99/100)  - Train_Inference_Time: 21975.90234375	Train_PPYoloELoss/loss_cls: 1.0616132020950317	Train_PPYoloELoss/loss_iou: 0.5396564602851868	Train_PPYoloELoss/loss_dfl: 0.635814368724823	Train_PPYoloELoss/loss: 2.237084150314331	
+
+Epoch 98 (99/100)  - Valid_Inference_Time: 1697.071044921875	Valid_PPYoloELoss/loss_cls: 1.131414532661438	Valid_PPYoloELoss/loss_iou: 0.5424721837043762	Valid_PPYoloELoss/loss_dfl: 0.6977817416191101	Valid_PPYoloELoss/loss: 2.3716683387756348	Valid_Precision@0.50: 0.04150277003645897	Valid_Recall@0.50: 0.7106918096542358	Valid_mAP@0.50: 0.3807429075241089	Valid_F1@0.50: 0.07772045582532883	
+
+Epoch 98 (99/100)  - Test_Inference_Time: 0.0	
+
+Epoch 98 (99/100)  - LR: 0.00010231197427807162	
+
+Epoch 99 (100/100)  - Train_Inference_Time: 22952.8359375	Train_PPYoloELoss/loss_cls: 1.0448212623596191	Train_PPYoloELoss/loss_iou: 0.5371850728988647	Train_PPYoloELoss/loss_dfl: 0.6399668455123901	Train_PPYoloELoss/loss: 2.221973180770874	
+
+Epoch 99 (100/100)  - Valid_Inference_Time: 2584.873779296875	Valid_PPYoloELoss/loss_cls: 1.1391910314559937	Valid_PPYoloELoss/loss_iou: 0.5565541386604309	Valid_PPYoloELoss/loss_dfl: 0.7121524810791016	Valid_PPYoloELoss/loss: 2.407897710800171	Valid_Precision@0.50: 0.039218924939632416	Valid_Recall@0.50: 0.745766818523407	Valid_mAP@0.50: 0.40628889203071594	Valid_F1@0.50: 0.07435175776481628	
+
+Epoch 99 (100/100)  - Test_Inference_Time: 0.0	
+
+Epoch 99 (100/100)  - LR: 0.00010107222746443857	
+
+Epoch 100 (101/100)  - Train_Inference_Time: 20751.646484375	Train_PPYoloELoss/loss_cls: 1.0599323511123657	Train_PPYoloELoss/loss_iou: 0.5318297147750854	Train_PPYoloELoss/loss_dfl: 0.6453982591629028	Train_PPYoloELoss/loss: 2.2371602058410645	
+
+Epoch 100 (101/100)  - Valid_Inference_Time: 1630.9317626953125	Valid_PPYoloELoss/loss_cls: 1.13975191116333	Valid_PPYoloELoss/loss_iou: 0.547943651676178	Valid_PPYoloELoss/loss_dfl: 0.707463800907135	Valid_PPYoloELoss/loss: 2.3951594829559326	Valid_Precision@0.50: 0.03990713879466057	Valid_Recall@0.50: 0.745766818523407	Valid_mAP@0.50: 0.4055102467536926	Valid_F1@0.50: 0.07546643167734146	
+
+Epoch 100 (101/100)  - Test_Inference_Time: 0.0	
+
+Epoch 100 (101/100)  - LR: 0.00010030269737968509	
