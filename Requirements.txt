@@ -1,0 +1,7 @@
+numpy
+absl
+scipy
+sphinx_glpi_theme
+prettytable
+pyyaml
+wcwidth
